@@ -10,9 +10,12 @@ before_install:
 addons:
   apt:
     packages:
-    - ansible
+    - python-pip
 
 install:
+  # Check ansible version
+  - pip install ansible
+
   # Check ansible version
   - ansible --version
 
