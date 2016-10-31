@@ -15,7 +15,7 @@ install:
   - pip install ansible
 
   # Install dependency
-  - ansible-galaxy install resmo.ntp
+  - sudo ansible-galaxy install resmo.ntp
 
   # Check ansible version
   - ansible --version
