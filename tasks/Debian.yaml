@@ -1,0 +1,10 @@
+---
+    #SLURM dependences 
+    - name: Install Apr slurm package
+      apt: name=slurm-llnl
+
+    - set_fact: SLURM_CONF="/etc/slurm-llnl/slurm.conf" SLURM_SERVICE="slurm-llnl"
+
+
+
+

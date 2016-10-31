@@ -1,0 +1,18 @@
+---
+    # install munge
+    - name: Apt install munge
+      apt: name=munge update_cache=yes cache_valid_time=3600
+      when: ansible_os_family == "Debian"
+
+    - name: Yum install epel
+      yum: name=epel-release
+      when: ansible_os_family == "RedHat"
+
+    - name: Yum install munge
+      yum: name=munge
+      when: ansible_os_family == "RedHat"
+
+    - file: path=/var/log/munge state=directory mode=0700
+    - file: path=/var/log state=directory mode=0755
+
+

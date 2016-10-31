@@ -1,0 +1,19 @@
+galaxy_info:
+  author: Miguel Caballer
+  description: Install SLURM cluster
+  company:  GRyCAP
+  license: Apache
+  min_ansible_version: 1.8
+  platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+  - name: Ubuntu
+    versions:
+    - trusty
+  galaxy_tags:
+    - slurm
+    - lrms
+dependencies:
+  - { role: 'resmo.ntp', ntp_config_server: [ntp.upv.es, ntp.uv.es] }

@@ -1,0 +1,15 @@
+---
+# SLURM version to install (in case of RH systems)
+slurm_version: 14.11.3
+# Type of node to install: front or wn
+slurm_type_of_node: front
+# Name of the SLURM server
+slurm_server_name: slurmserver
+# IP address of the SLURM server
+slurm_server_ip: 127.0.0.1
+# Prefix to set to the SLURM working nodes
+slurm_vnode_prefix: vnode-
+# List of IPs of the WNs
+slurm_wn_ips: []
+
+

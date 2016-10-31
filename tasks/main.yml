@@ -1,0 +1,18 @@
+---
+    # install munge
+    - name: Start Munge service
+      service: name=munge state=started
+      register: munge_installed
+      ignore_errors: yes
+
+    - include: munge.yaml
+      when: munge_installed|failed
+
+    - stat: path=/etc/munge/munge.key
+      register: munge_key
+
+    - include: "{{ansible_os_family}}.yaml"
+
+    - include: "{{slurm_type_of_node}}.yaml"
+
+
