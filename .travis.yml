@@ -23,7 +23,7 @@ install:
   - printf '[defaults]\nroles_path=../' > ansible.cfg
 
   # Install dependency
-  - sudo ansible-galaxy install resmo.ntp
+  - ansible-galaxy install resmo.ntp
 
 script:
   # Basic role syntax check
