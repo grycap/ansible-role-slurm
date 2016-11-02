@@ -1,18 +1,29 @@
 ---
-    # configure munge
-    - shell: create-munge-key < /dev/null creates=/etc/munge/munge.key
+    - name: Configure munge
+      shell: create-munge-key < /dev/null creates=/etc/munge/munge.key
       when: not munge_key.stat.exists
       notify: restart munge
 
-    - service: name=munge state=started
+    - name: Start munge service
+      service: name=munge state=started
+
+    # Configure SSH without password to connect with the nodes of the cluster
+    - name: Create ssh keys for defined user
+      user: name={{user}} generate_ssh_key=yes
+    - name: Copy generated public key
+      local_action: command cp /home/{{user}}/.ssh/id_rsa.pub /tmp/{{user}}_id_rsa.pub creates=/tmp/{{user}}_id_rsa.pub
+    - name: Add the authorized_key to the user {{user}}
+      authorized_key: user={{user}} key="{{ lookup('file', '/tmp/' + item.name + '_id_rsa.pub') }}"
+    - name: Update known hosts
+      template: src=utils/templates/ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
 
     - name: Create the slurm.conf file
       template: dest={{ SLURM_CONF }} src=slurm.conf.j2
       notify: reload slurm
 
-    # start SLURM daemon
-    - service: name={{SLURM_SERVICE}} state=started
-    
+    - name: Start SLURM daemon
+      service: name={{SLURM_SERVICE}} state=started
+
     - name: Ensure slurmd is not running in front node
       shell: pgrep slurmd && killall slurmd
       ignore_errors: yes

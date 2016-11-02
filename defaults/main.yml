@@ -13,3 +13,5 @@ slurm_vnode_prefix: vnode-
 slurm_wn_nodenames: []
 # Number of CPUs of the WNs
 slurm_wn_cpus: 1
+# Default ssh user
+user: user1
