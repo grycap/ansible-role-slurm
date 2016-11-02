@@ -13,7 +13,7 @@
     - name: Copy generated public key
       local_action: command cp /home/{{user}}/.ssh/id_rsa.pub /tmp/{{user}}_id_rsa.pub creates=/tmp/{{user}}_id_rsa.pub
     - name: Add the authorized_key to the user {{user}}
-      authorized_key: user={{user}} key="{{ lookup('file', '/tmp/' + item.name + '_id_rsa.pub') }}"
+      authorized_key: user={{user}} key="{{ lookup('file', '/tmp/' + user + '_id_rsa.pub') }}"
     - name: Update known hosts
       template: src=utils/templates/ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
 
