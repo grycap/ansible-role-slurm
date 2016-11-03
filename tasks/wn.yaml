@@ -27,9 +27,9 @@
     - name: Add the authorized_key to the user {{user}}
       authorized_key: user={{user}} key="{{ lookup('file', '/tmp/' + user + '_id_rsa.pub') }}"
     - name: Copy the id_rsa.pub file to the user
-      include: sudo_copy.yml src=/home/{{user}}/.ssh/id_rsa.pub dest=/home/{{user}}/.ssh/id_rsa.pub owner={{user}} group={{user}} mode=0644 loop={{USERS}}
+      include: sudo_copy.yml src=/home/{{user}}/.ssh/id_rsa.pub dest=/home/{{user}}/.ssh/id_rsa.pub owner={{user}} group={{user}} mode=0644
     - name: Copy the id_rsa file to the user
-      include: sudo_copy.yml src=/home/{{user}}/.ssh/id_rsa dest=/home/{{user}}/.ssh/id_rsa owner={{user}} group={{user}} mode=0600 loop={{USERS}}
+      include: sudo_copy.yml src=/home/{{user}}/.ssh/id_rsa dest=/home/{{user}}/.ssh/id_rsa owner={{user}} group={{user}} mode=0600
     - name: Update known hosts
       template: src=utils/templates/ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
 
