@@ -1,22 +1,25 @@
 ---
-    # We have to remove the entries in /etc/hosts that correspond to the node name
-    - shell: cat /etc/hosts | sed "/{{slurm_server_name}}/d" > /tmp/newhosts
-    # Now we add a new entry with the new IP address
-    - shell: echo "{{ slurm_server_ip }} {{ slurm_server_name }}" >> /tmp/newhosts
-    # Let's set the new /etc/hosts file
-    - shell: cp /tmp/newhosts /etc/hosts && rm /tmp/newhosts
+    - name: Remove the entries in /etc/hosts that correspond to the node name
+      shell: cat /etc/hosts | sed "/{{slurm_server_name}}/d" > /tmp/newhosts
+    - name: Add a new entry in the hosts file with the new IP address
+      shell: echo "{{ slurm_server_ip }} {{ slurm_server_name }}" >> /tmp/newhosts
+    - name: Set the new /etc/hosts file
+      shell: cp /tmp/newhosts /etc/hosts && rm /tmp/newhosts
 
-    - service: name=firewalld state=stopped
+    - name: Stop firewall in Centos7
+      service: name=firewalld state=stopped
       when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7
       ignore_errors: yes
 
-    - local_action: wait_for path=/etc/munge/munge.key timeout=600
+    - name: Check munge key
+      local_action: wait_for path=/etc/munge/munge.key timeout=600
       when: not munge_key.stat.exists
-    - include: sudo_copy.yaml src=/etc/munge/munge.key dest=/etc/munge/munge.key owner=munge group=munge mode="0400"
+    - name: If there is not munge key copy one
+      include: sudo_copy.yaml src=/etc/munge/munge.key dest=/etc/munge/munge.key owner=munge group=munge mode="0400"
       when: not munge_key.stat.exists
       notify: restart munge
-
-    - service: name=munge state=started
+    - name: Make sure the munge service is started
+      service: name=munge state=started
 
     # Configure SSH without password to the nodes of the cluster
     - name: Create ssh keys for defined user
@@ -28,11 +31,12 @@
     - name: Copy the id_rsa file to the user
       include: sudo_copy.yml src=/home/{{user}}/.ssh/id_rsa dest=/home/{{user}}/.ssh/id_rsa owner={{user}} group={{user}} mode=0600 loop={{USERS}}
     - name: Update known hosts
-    - template: src=utils/templates/ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
+      template: src=utils/templates/ssh_known_hosts.conf dest=/etc/ssh/ssh_known_hosts
 
     - name: Create the slurm.conf file
       template: dest={{ SLURM_CONF }} src=slurm.conf.j2
       notify: reload slurm
 
     # start SLURM daemon
-    - service: name={{SLURM_SERVICE}} state=started
+    - name: Start SLURM daemon
+      service: name={{SLURM_SERVICE}} state=started
