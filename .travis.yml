@@ -24,6 +24,7 @@ install:
 
   # Install dependency
   - ansible-galaxy install resmo.ntp
+  - ansible-galaxy install grycap.munge
 
 script:
   # Basic role syntax check
