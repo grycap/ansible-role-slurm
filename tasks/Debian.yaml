@@ -1,7 +1,7 @@
 ---
-    #SLURM dependences
-    - name: Install Apt slurm package
-      apt: name=slurm-llnl
+  #SLURM dependences
+  - name: Install Apt slurm package
+    apt: name=slurm-llnl
 
-    - name: Set SLURM conf file path as fact
-      set_fact: SLURM_CONF="/etc/slurm-llnl/slurm.conf" SLURM_SERVICE="slurm-llnl"
+  - name: Set SLURM conf file path as fact
+    set_fact: SLURM_CONF="/etc/slurm-llnl/slurm.conf" SLURM_SERVICE="slurm-llnl"

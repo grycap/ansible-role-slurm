@@ -32,15 +32,16 @@ Example Playbook
 ----------------
 
 This an example of how to install a SLURM cluster:
-
-    - hosts: server
-      roles:
-      - { role: 'grycap.slurm', slurm_type_of_node: 'front', slurm_server_ip: '{{ansible_default_ipv4}}', slurm_wn_nodenames: "{{ groups['wns']|map('extract', hostvars, 'ansible_hostname')|list }}" }
-
-    - hosts: wns
-      roles:
-      - { role: 'grycap.slurm', slurm_type_of_node: 'wn', slurm_server_ip: "{{hostvars['server']['ansible_default_ipv4']}}" }
-
+```
+  - hosts: server
+  roles:
+  - { role: 'grycap.slurm', slurm_type_of_node: 'front', slurm_server_ip: '{{ansible_default_ipv4}}', slurm_wn_nodenames: "{{ groups['wns']|map('extract', hostvars, 'ansible_hostname')|list }}" }
+```
+```
+  - hosts: wns
+  roles:
+  - { role: 'grycap.slurm', slurm_type_of_node: 'wn', slurm_server_ip: "{{hostvars['server']['ansible_default_ipv4']}}" }
+```
 Contributing to the role
 ========================
 In order to keep the code clean, pushing changes to the master branch has been disabled. If you want to contribute, you have to create a branch, upload your changes and then create a pull request.  

@@ -1,20 +1,6 @@
 ---
-    # install munge
-    - name: Start Munge service
-      service: name=munge state=started
-      register: munge_installed
-      ignore_errors: yes
+  - name: Include "{{ansible_os_family}}" SLURM recipe
+    include: "{{ansible_os_family}}.yaml"
 
-    - name: Include munge recipe if package is not present
-      include: munge.yaml
-      when: munge_installed|failed
-
-    - name: Register munge key
-      stat: path=/etc/munge/munge.key
-      register: munge_key
-
-    - name: Include "{{ansible_os_family}}" SLURM recipe
-      include: "{{ansible_os_family}}.yaml"
-
-    - name: Include "{{slurm_type_of_node}}" SLURM recipe
-      include: "{{slurm_type_of_node}}.yaml"
+  - name: Include "{{slurm_type_of_node}}" SLURM recipe
+    include: "{{slurm_type_of_node}}.yaml"

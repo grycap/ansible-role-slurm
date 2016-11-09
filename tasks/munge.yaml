@@ -1,18 +1,6 @@
 ---
-    # install munge
-    - name: Apt install munge
-      apt: name=munge update_cache=yes cache_valid_time=3600
-      when: ansible_os_family == "Debian"
+  - name: Set munge log directory access rights
+    file: path=/var/log/munge state=directory mode=0700
 
-    - name: Yum install epel
-      yum: name=epel-release
-      when: ansible_os_family == "RedHat"
-
-    - name: Yum install munge
-      yum: name=munge
-      when: ansible_os_family == "RedHat"
-
-    - name: Set munge log directory access rights
-      file: path=/var/log/munge state=directory mode=0700
-    - name: Set log directory access rights
-      file: path=/var/log state=directory mode=0755
+  - name: Set log directory access rights
+    file: path=/var/log state=directory mode=0755
