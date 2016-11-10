@@ -1,27 +1,26 @@
 ---
-    #SLURM dependences 
-    - name: update repositories cache and yum install slurm dependences in REL systems
-      yum: name=readline-devel,openssl,openssl-devel,munge-devel,pam-devel,perl-ExtUtils-MakeMaker,gcc,make,rpm-build,perl-DBI,perl-Switch,psmisc
+  #SLURM dependences
+  - name: update repositories cache and yum install slurm dependences in REL systems
+    yum: name=readline-devel,openssl,openssl-devel,munge-devel,pam-devel,perl-ExtUtils-MakeMaker,gcc,make,rpm-build,perl-DBI,perl-Switch,psmisc
 
-    - name: download SLURM package
-      get_url: url=http://www.schedmd.com/download/archive/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm-{{ slurm_version }}.tar.bz2
+  - name: download SLURM package
+    get_url: url=http://www.schedmd.com/download/archive/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm-{{ slurm_version }}.tar.bz2
 
-    - name: build rpm slurm package
-      command: rpmbuild -ta slurm-{{ slurm_version }}.tar.bz2 chdir=/tmp creates=/root/rpmbuild/RPMS/x86_64/slurm-{{ slurm_version }}-1.el7.centos.x86_64.rpm
+  - name: build rpm slurm package
+    command: rpmbuild -ta slurm-{{ slurm_version }}.tar.bz2 chdir=/tmp creates=/root/rpmbuild/RPMS/x86_64/slurm-{{ slurm_version }}-1.el7.centos.x86_64.rpm
 
-    - name: install rpm slurm package
-      command: rpm -Uvh ~/rpmbuild/RPMS/x86_64/*.rpm chdir=/tmp creates=/etc/init.d/slurm
+  - name: install rpm slurm package
+    command: rpm -Uvh ~/rpmbuild/RPMS/x86_64/*.rpm chdir=/tmp creates=/etc/init.d/slurm
 
-    - set_fact: SLURM_CONF="/etc/slurm/slurm.conf"  SLURM_SERVICE="slurm"
-  
-    - name: create slurm user and group
-      user: name=slurm shell=/bin/bash system=yes
+  - set_fact: SLURM_CONF="/etc/slurm/slurm.conf"  SLURM_SERVICE="slurm"
 
-    - name: create folders used by SLURM and set slurm owner
-      file: path={{item}} state=directory owner=slurm group=slurm
-      with_items:
-         - /var/spool/slurm
-         - /var/log/slurm
-         - /var/slurm/checkpoint
-         - /etc/slurm
+  - name: create slurm user and group
+    user: name=slurm shell=/bin/bash system=yes
 
+  - name: create folders used by SLURM and set slurm owner
+    file: path={{item}} state=directory owner=slurm group=slurm
+    with_items:
+       - /var/spool/slurm
+       - /var/log/slurm
+       - /var/slurm/checkpoint
+       - /etc/slurm
