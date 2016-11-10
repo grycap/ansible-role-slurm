@@ -1,6 +1,0 @@
----
-  - name: Set munge log directory access rights
-    file: path=/var/log/munge state=directory mode=0700
-
-  - name: Set log directory access rights
-    file: path=/var/log state=directory mode=0755
