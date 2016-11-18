@@ -1,17 +1,8 @@
 ---
-#  - name: Create the slurm.conf file
-#    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
-#    notify: reload slurm
-#  - name: Start SLURM daemon
-#    service: name={{SLURM_SERVICE}} state=started
-#  - name: Ensure slurmd is not running in front node
-#    shell: pgrep slurmd && killall slurmd
-#    ignore_errors: yes
-
   - name: Copy 'is_cluster_ready' file
     copy:
       dest: /bin/is_cluster_ready
-      content: "{{FILE}}"
+      content: "{{is_cluster_ready_script}}"
       mode: 0755
 
   - name: Update the /etc/hosts file

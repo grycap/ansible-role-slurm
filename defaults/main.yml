@@ -14,6 +14,8 @@ slurm_wn_nodenames: []
 # Number of CPUs of the WNs
 slurm_wn_cpus: 1
 # Default ssh user
-user: user1
+slurm_ssh_user: user1
 # Templates files
 templates: ""
+# Script telling if the cluster finished the configuration
+is_cluster_ready_script: ""
