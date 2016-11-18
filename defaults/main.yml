@@ -15,3 +15,5 @@ slurm_wn_nodenames: []
 slurm_wn_cpus: 1
 # Default ssh user
 user: user1
+# Templates files
+templates: ""
