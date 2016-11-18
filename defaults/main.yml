@@ -19,3 +19,5 @@ slurm_ssh_user: user1
 templates: ""
 # Script telling if the cluster finished the configuration
 is_cluster_ready_script: ""
+# Number of Maximun nodes
+max_number_of_nodes: 3
