@@ -1,5 +1,8 @@
 ---
   #SLURM dependences
+  - name: create epel.repo
+    action: template src=utils/templates/epel-es.repo dest=/etc/yum.repos.d/epel.repo
+
   - name: update repositories cache and yum install slurm dependences in REL systems
     yum: name=readline-devel,openssl,openssl-devel,munge-devel,pam-devel,perl-ExtUtils-MakeMaker,gcc,make,rpm-build,perl-DBI,perl-Switch,psmisc
 
@@ -13,14 +16,3 @@
     command: rpm -Uvh ~/rpmbuild/RPMS/x86_64/*.rpm chdir=/tmp creates=/etc/init.d/slurm
 
   - set_fact: SLURM_CONF="/etc/slurm/slurm.conf"  SLURM_SERVICE="slurm"
-
-  - name: create slurm user and group
-    user: name=slurm shell=/bin/bash system=yes
-
-  - name: create folders used by SLURM and set slurm owner
-    file: path={{item}} state=directory owner=slurm group=slurm
-    with_items:
-       - /var/spool/slurm
-       - /var/log/slurm
-       - /var/slurm/checkpoint
-       - /etc/slurm

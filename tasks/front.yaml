@@ -1,11 +1,52 @@
 ---
+#  - name: Create the slurm.conf file
+#    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
+#    notify: reload slurm
+#  - name: Start SLURM daemon
+#    service: name={{SLURM_SERVICE}} state=started
+#  - name: Ensure slurmd is not running in front node
+#    shell: pgrep slurmd && killall slurmd
+#    ignore_errors: yes
+
+  - name: Copy 'is_cluster_ready' file
+    copy:
+      dest: /bin/is_cluster_ready
+      content: "{{FILE}}"
+      mode: 0755
+
+  - name: Update the /etc/hosts file
+    shell: |
+      for i in `seq 1 {{NNODES}}`; do
+        item="{{vnode_prefix}}${i}";
+        grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
+      done
+
   - name: Create the slurm.conf file
     template: dest={{ SLURM_CONF }} src=slurm.conf.j2
-    notify: reload slurm
 
-  - name: Start SLURM daemon
-    service: name={{SLURM_SERVICE}} state=started
+  - name: Set blcr config in SLURM
+    lineinfile: dest={{ SLURM_CONF }} regexp='#CheckpointType=' line='CheckpointType=checkpoint/blcr' state=present
+    when: "'blcr' in TEMPLATES"
 
-  - name: Ensure slurmd is not running in front node
-    shell: pgrep slurmd && killall slurmd
-    ignore_errors: yes
+  - name: Set 'ControlMachine' property on SLURM config file
+    lineinfile: dest={{ SLURM_CONF }} regexp='ControlMachine=' line='ControlMachine=slurmserver' state=present
+
+  - name: Configure compute nodes section of slurm.conf
+    lineinfile: dest={{ SLURM_CONF }} regexp='NodeName={{item.id|replace('_','x')}}\[' line='NodeName={{item.id|replace('_','x')}}[0-{{item.ec3_max_instances_max|int - 1}}] CPUs=1 State=UNKNOWN' state=present
+    with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
+
+  - name: Configure slurm.conf
+    lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName={{item.id}} ' line='PartitionName={{item.id}} Nodes={{item.id|replace('_','x')}}[0-{{item.ec3_max_instances_max|int - 1}}] MaxTime=INFINITE State=UP' state=present
+    with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
+
+  # start SLURM slurmctld daemon
+  - name: Start SLURM slurmctld daemon in Deb systems
+    shell: pgrep slurmctld || nohup /usr/local/sbin/slurmctld > /dev/null 2>&1 &
+    when: ansible_os_family == "Debian"
+
+  - name: Start SLURM slurmctld daemon in RedHat systems
+    command: systemctl start slurm
+    when: ansible_os_family == "RedHat"
+
+  - name: Reconfigure SLURM
+    shell: scontrol reconfig
