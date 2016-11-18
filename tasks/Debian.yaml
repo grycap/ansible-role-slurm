@@ -13,7 +13,7 @@
     command: tar xjf slurm.tar.bz2 chdir=/tmp creates=/tmp/slurm-14.11.3
 
   - name: configure SLURM
-    command: ./configure {{ "--with-blcr=/usr/local/bin" if "blcr" in TEMPLATES else "" }} chdir=/tmp/slurm-14.11.3 creates=/tmp/slurm-14.11.3/config.log
+    command: ./configure {{ "--with-blcr=/usr/local/bin" if "blcr" in templates else "" }} chdir=/tmp/slurm-14.11.3 creates=/tmp/slurm-14.11.3/config.log
 
   - name: compile (make) SLURM
     command: make chdir=/tmp/slurm-14.11.3 creates=/tmp/slurm-14.11.3/src/slurmctld
