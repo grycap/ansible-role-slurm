@@ -1,9 +1,5 @@
 ---
-  #SLURM dependences
-#  - name: Install Apt slurm package
-#    apt: name=slurm-llnl
-
-  - name: update repositories cache and apt install slurm dependences in Deb systems
+  - name: install slurm dependences in Deb systems
     apt: name=libmunge2,libpq5,openssl-blacklist,munge,libmunge-dev,gcc,make update_cache=yes
 
   - name: download SLURM package
