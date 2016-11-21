@@ -22,13 +22,11 @@
   - name: Set 'ControlMachine' property on SLURM config file
     lineinfile: dest={{ SLURM_CONF }} regexp='ControlMachine=' line='ControlMachine=slurmserver' state=present
 
-  - name: Configure compute nodes section of slurm.conf
-    lineinfile: dest={{ SLURM_CONF }} regexp='NodeName={{item.id|replace('_','x')}}\[' line='NodeName={{item.id|replace('_','x')}}[0-{{item.ec3_max_instances_max|int - 1}}] CPUs=1 State=UNKNOWN' state=present
-    with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
+  - name: Set node names in slurm.conf
+    lineinfile: dest={{SLURM_CONF}} regexp='NodeName=' line='NodeName={{vnode_prefix}}[1-{{ec3_max_instances|int}}] CPUs=1 State=UNKNOWN'
 
-  - name: Configure slurm.conf
-    lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName={{item.id}} ' line='PartitionName={{item.id}} Nodes={{item.id|replace('_','x')}}[0-{{item.ec3_max_instances_max|int - 1}}] MaxTime=INFINITE State=UP' state=present
-    with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
+  - name: Set partition name parameter in SLURM config file
+    lineinfile: dest={{SLURM_CONF}} regexp='PartitionName=' line='PartitionName=debug Nodes={{vnode_prefix}}[1-{{ec3_max_instances|int}}] Default=YES MaxTime=INFINITE State=UP'
 
   # start SLURM slurmctld daemon
   - name: Start SLURM slurmctld daemon in Deb systems
