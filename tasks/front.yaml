@@ -4,27 +4,17 @@
 
   - name: Update the /etc/hosts file
     shell: |
-      for i in `seq 1 {{item.ec3_max_instances_max}}`; do
-        item="{{item.id|replace('_','x')}}${i}";
-        grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item} ${item}.localdomain" >> /etc/hosts;
+      for i in `seq 1 {{NNODES}}`; do
+        item="{{vnode_prefix}}${i}";
+        grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
       done
-    with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
 
   - name: Create the slurm.conf file
-    template: dest={{ SLURM_CONF }} src=slurm.conf
+    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
 
   - name: Set blcr config in SLURM
     lineinfile: dest={{ SLURM_CONF }} regexp='#CheckpointType=' line='CheckpointType=checkpoint/blcr' state=present
     when: "'blcr' in templates"
-
-  - name: Set 'ControlMachine' property on SLURM config file
-    lineinfile: dest={{ SLURM_CONF }} regexp='ControlMachine=' line='ControlMachine=slurmserver' state=present
-
-  - name: Set node names in slurm.conf
-    lineinfile: dest={{SLURM_CONF}} regexp='NodeName=' line='NodeName={{vnode_prefix}}[1-{{ec3_max_instances|int}}] CPUs=1 State=UNKNOWN'
-
-  - name: Set partition name parameter in SLURM config file
-    lineinfile: dest={{SLURM_CONF}} regexp='PartitionName=' line='PartitionName=debug Nodes={{vnode_prefix}}[1-{{ec3_max_instances|int}}] Default=YES MaxTime=INFINITE State=UP'
 
   # start SLURM slurmctld daemon
   - name: Start SLURM slurmctld daemon in Deb systems
