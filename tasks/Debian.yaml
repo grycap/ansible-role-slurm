@@ -3,19 +3,19 @@
     apt: name=libmunge2,libpq5,openssl-blacklist,munge,libmunge-dev,gcc,make update_cache=yes
 
   - name: download SLURM package
-    get_url: url=http://www.schedmd.com/download/archive/slurm-14.11.3.tar.bz2 dest=/tmp/slurm.tar.bz2
+    get_url: url=https://www.schedmd.com/downloads/latest/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
 
   - name: decompress SLURM package
-    command: tar xjf slurm.tar.bz2 chdir=/tmp creates=/tmp/slurm-14.11.3
+    command: tar xjf slurm.tar.bz2 chdir=/tmp creates=/tmp/slurm-{{ slurm_version }}
 
   - name: configure SLURM
-    command: ./configure {{ "--with-blcr=/usr/local/bin" if "blcr" in templates else "" }} chdir=/tmp/slurm-14.11.3 creates=/tmp/slurm-14.11.3/config.log
+    command: ./configure {{ "--with-blcr=/usr/local/bin" if "blcr" in templates else "" }} chdir=/tmp/slurm-{{ slurm_version }} creates=/tmp/slurm-{{ slurm_version }}/config.log
 
   - name: compile (make) SLURM
-    command: make chdir=/tmp/slurm-14.11.3 creates=/tmp/slurm-14.11.3/src/slurmctld
+    command: make chdir=/tmp/slurm-{{ slurm_version }} creates=/tmp/slurm-{{ slurm_version }}/src/slurmctld
 
   - name: install SLURM
-    command: make install chdir=/tmp/slurm-14.11.3 creates=/usr/local/bin/srun
+    command: make install chdir=/tmp/slurm-{{ slurm_version }} creates=/usr/local/bin/srun
 
   - name: Set SLURM conf file path as fact
     set_fact: SLURM_CONF="/usr/local/etc/slurm.conf" SLURM_SERVICE="slurmd"
