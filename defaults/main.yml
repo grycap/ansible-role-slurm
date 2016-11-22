@@ -1,7 +1,7 @@
 ---
 # SLURM version to install (in case of RH systems)
 #slurm_version: 14.11.3
-slurm_version: 16.05.6
+slurm_version: 16.05.5
 # Type of node to install: front or wn
 slurm_type_of_node: front
 # Name of the SLURM server
@@ -18,7 +18,5 @@ slurm_wn_cpus: 1
 slurm_ssh_user: user1
 # Templates files
 templates: ""
-# Script telling if the cluster finished the configuration
-is_cluster_ready_script: ""
 # Number of Maximun nodes
 max_number_of_nodes: 3

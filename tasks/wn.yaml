@@ -1,22 +1,18 @@
 ---
-  - name: Remove the entries in /etc/hosts that correspond to the node name
-    shell: cat /etc/hosts | sed "/{{slurm_server_name}}/d" > /tmp/newhosts
+  - name: copy slurm.conf file from the frontend
+    copy: src=/usr/local/etc/slurm.conf dest={{SLURM_CONF}}
 
-  - name: Add a new entry in the hosts file with the new IP address
-    shell: echo "{{ slurm_server_ip }} {{ slurm_server_name }}" >> /tmp/newhosts
-
-  - name: Set the new /etc/hosts file
-    shell: cp /tmp/newhosts /etc/hosts && rm /tmp/newhosts
-
-  - name: Stop firewall in Centos7
-    service: name=firewalld state=stopped
+  # A patch to solve some strange issue in CentOS 7
+  - lineinfile: dest=/etc/slurm/slurm.conf regexp='^SlurmdPidFile=' line='SlurmdPidFile=/var/run/slurmctld.pid'
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7
-    ignore_errors: yes
 
-  - name: Create the slurm.conf file
-    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
-    notify: reload slurm
+  - name: start slurmd daemon in Deb systems
+    shell: pgrep slurmd || slurmd
+    when: ansible_os_family == "Debian"
 
-  # start SLURM daemon
-  - name: Start SLURM daemon
-    service: name={{SLURM_SERVICE}} state=started
+  - name: start slurmd daemon in RedHat systems
+    command: systemctl enable slurm.service
+    when: ansible_os_family == "RedHat"
+
+  - command: systemctl start slurm.service
+    when: ansible_os_family == "RedHat"

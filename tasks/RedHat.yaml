@@ -15,4 +15,4 @@
   - name: install rpm slurm package
     command: rpm -Uvh ~/rpmbuild/RPMS/x86_64/*.rpm chdir=/tmp creates=/etc/init.d/slurm
 
-  - set_fact: SLURM_CONF="/etc/slurm/slurm.conf"  SLURM_SERVICE="slurm"
+  - set_fact: SLURM_CONF="/etc/slurm/slurm.conf" SLURM_SERVICE="slurm"

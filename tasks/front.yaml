@@ -1,9 +1,6 @@
 ---
   - name: Copy 'is_cluster_ready' file
-    copy:
-      dest: /bin/is_cluster_ready
-      content: "{{is_cluster_ready_script}}"
-      mode: 0755
+    copy: dest=/bin/is_cluster_ready src=is_cluster_ready mode=0755
 
   - name: Update the /etc/hosts file
     shell: |
@@ -14,11 +11,11 @@
     with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
 
   - name: Create the slurm.conf file
-    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
+    template: dest={{ SLURM_CONF }} src=slurm.conf
 
   - name: Set blcr config in SLURM
     lineinfile: dest={{ SLURM_CONF }} regexp='#CheckpointType=' line='CheckpointType=checkpoint/blcr' state=present
-    when: "'blcr' in TEMPLATES"
+    when: "'blcr' in templates"
 
   - name: Set 'ControlMachine' property on SLURM config file
     lineinfile: dest={{ SLURM_CONF }} regexp='ControlMachine=' line='ControlMachine=slurmserver' state=present
