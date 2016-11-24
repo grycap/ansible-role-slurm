@@ -18,4 +18,4 @@
   - name: Start Slurm Daemon
     become: true
     become_user: slurm
-    shell: {{SLURM_DAEMON}}
+    shell: slurmd

@@ -1,2 +1,4 @@
 - name: reload slurm
-  shell: scontrol reconfigure || service {{SLURM_SERVICE}} restart
+  become: true
+  become_user: slurm
+  shell: scontrol reconfigure || service slurmctld restart

@@ -12,7 +12,7 @@
   - name: Start SLURM service
     become: true
     become_user: slurm
-    shell: {{SLURM_SERVICE}}
+    shell: slurmctld
 
   - name: Ensure slurmd is not running in front node
     shell: pgrep slurmd && killall slurmd
