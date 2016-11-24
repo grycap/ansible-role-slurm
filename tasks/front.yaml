@@ -10,7 +10,7 @@
     when: "'blcr' in templates"
 
   - name: Start SLURM service
-    service: name={{SLURM_SERVICE}} state=started
+    shell: pgrep slurmctld || nohup /usr/local/sbin/slurmctld > /dev/null 2>&1 &
 
   - name: Ensure slurmd is not running in front node
     shell: pgrep slurmd && killall slurmd
