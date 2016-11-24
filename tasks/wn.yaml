@@ -15,4 +15,4 @@
     notify: reload slurm
 
     # start SLURM daemon
-  - service: name={{SLURM_SERVICE}} state=started
+  - service: name={{SLURM_DAEMON}} state=started

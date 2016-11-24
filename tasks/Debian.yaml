@@ -18,4 +18,7 @@
     command: make install chdir=/tmp/slurm-{{ slurm_version }} creates=/usr/local/bin/srun
 
   - name: Set SLURM conf file path as fact
-    set_fact: SLURM_CONF="/usr/local/etc/slurm.conf" SLURM_SERVICE="slurmd"
+    set_fact:
+      SLURM_CONF: "/usr/local/etc/slurm.conf"
+      SLURM_SERVICE: "slurmctld"
+      SLURM_DAEMON: "slurmd"
