@@ -9,13 +9,13 @@ slurm_server_name: slurmserver
 # IP address of the SLURM server
 slurm_server_ip: 127.0.0.1
 # Prefix to set to the SLURM working nodes
-slurm_vnode_prefix: wn-
+slurm_vnode_prefix: wn
 # List of the name of the WNs
 slurm_wn_nodenames: []
 # Number of CPUs of the WNs
 slurm_wn_cpus: 1
 # Default ssh user
-slurm_ssh_user: user1
+slurm_ssh_user: grycap
 # Templates files
 templates: ""
 # Number of Maximun nodes

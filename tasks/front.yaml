@@ -2,13 +2,6 @@
   - name: Copy 'is_cluster_ready' file
     copy: dest=/bin/is_cluster_ready src=is_cluster_ready mode=0755
 
-  - name: Update the /etc/hosts file
-    shell: |
-      for i in `seq 1 {{NNODES}}`; do
-        item="{{vnode_prefix}}${i}";
-        grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
-      done
-
   - name: Create the slurm.conf file
     template: dest={{ SLURM_CONF }} src=slurm.conf.j2
 
@@ -16,14 +9,9 @@
     lineinfile: dest={{ SLURM_CONF }} regexp='#CheckpointType=' line='CheckpointType=checkpoint/blcr' state=present
     when: "'blcr' in templates"
 
-  # start SLURM slurmctld daemon
-  - name: Start SLURM slurmctld daemon in Deb systems
-    shell: pgrep slurmctld || nohup /usr/local/sbin/slurmctld > /dev/null 2>&1 &
-    when: ansible_os_family == "Debian"
+  - name: Start SLURM service
+    service: name={{SLURM_SERVICE}} state=started
 
-  - name: Start SLURM slurmctld daemon in RedHat systems
-    command: systemctl start slurm
-    when: ansible_os_family == "RedHat"
-
-  - name: Reconfigure SLURM
-    shell: scontrol reconfig
+  - name: Ensure slurmd is not running in front node
+    shell: pgrep slurmd && killall slurmd
+    ignore_errors: yes
