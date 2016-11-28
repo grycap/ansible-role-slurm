@@ -4,7 +4,7 @@
 
     # Manage the /etc/hosts file
   - shell: |
-      for i in `seq 0 {{item.ec3_max_instances_max|int }}`; do
+      for i in `seq 1 {{item.ec3_max_instances_max|int }}`; do
         item="{{item.id|replace('_','x')}}${i}";
         grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item} ${item}.localdomain" >> /etc/hosts;
       done
@@ -27,8 +27,13 @@
   - name: Start SLURM service
     become: true
     become_user: slurm
-    shell: slurmctld
+    command: slurmctld
 
   - name: Ensure slurmd is not running in front node
     shell: pgrep slurmd && killall slurmd
     ignore_errors: yes
+
+  - name: Reconfigure SLURM
+    become: true
+    become_user: slurm
+    command: scontrol reconfigure
