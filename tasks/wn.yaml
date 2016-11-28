@@ -8,11 +8,7 @@
 
     # start SLURM daemon
   - name: Start Slurm Daemon
-    become: true
-    become_user: slurm
     command: slurmd
 
   - name: Reconfigure SLURM
-    become: true
-    become_user: slurm
     command: scontrol reconfigure
