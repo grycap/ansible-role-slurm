@@ -1,18 +1,10 @@
 ---
-  # We have to remove the entries in /etc/hosts that correspond to the node name
-  - shell: cat /etc/hosts | sed "/{{slurm_server_name}}/d" > /tmp/newhosts
-  # Now we add a new entry with the new IP address
-  - shell: echo "{{ slurm_server_ip }} {{ slurm_server_name }}" >> /tmp/newhosts
-  # Let's set the new /etc/hosts file
-  - shell: cp /tmp/newhosts /etc/hosts && rm /tmp/newhosts
-
   - service: name=firewalld state=stopped
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7
     ignore_errors: yes
 
-  - name: Create the slurm.conf file
-    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
-    notify: reload slurm
+  - name: copy slurm.conf file from the frontend
+    copy: src=/usr/local/etc/slurm.conf dest=/usr/local/etc/slurm.conf
 
     # start SLURM daemon
   - name: Start Slurm Daemon
