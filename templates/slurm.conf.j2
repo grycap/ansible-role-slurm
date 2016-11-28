@@ -157,10 +157,10 @@ SlurmdLogFile=/tmp/slurmd.log
 #
 # COMPUTE NODES
 
-{% if slurm_wn_nodenames %}
-NodeName={{ slurm_wn_nodenames | join(",") }} CPUs={{ slurm_wn_cpus }} State=UNKNOWN
-PartitionName=debug Nodes={{ slurm_wn_nodenames | join(",") }} Default=YES MaxTime=INFINITE State=UP
-{% else %}
-NodeName=localhost CPUs=1 State=UNKNOWN
-PartitionName=debug Nodes=localhost Default=YES MaxTime=INFINITE State=UP
-{% endif %}
+#{% if slurm_wn_nodenames %}
+#NodeName={{ slurm_wn_nodenames | join(",") }} CPUs={{ slurm_wn_cpus }} State=UNKNOWN
+#PartitionName=debug Nodes={{ slurm_wn_nodenames | join(",") }} Default=YES MaxTime=INFINITE State=UP
+#{% else %}
+#NodeName=localhost CPUs=1 State=UNKNOWN
+#PartitionName=debug Nodes=localhost Default=YES MaxTime=INFINITE State=UP
+#{% endif %}
