@@ -18,10 +18,10 @@
     when: "'blcr' in templates"
 
   - name: configure compute nodes section of slurm.conf
-    lineinfile: dest=/usr/local/etc/slurm.conf regexp='NodeName={{item.id|replace('_','x')}}\[' line='NodeName={{item.id|replace('_','x')}}[1-{{item.ec3_max_instances_max|int}}] CPUs=1 State=UNKNOWN' state=present
+    lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName={{item.id|replace('_','x')}}\[' line='NodeName={{item.id|replace('_','x')}}[1-{{item.ec3_max_instances_max|int}}] CPUs=1 State=UNKNOWN' state=present
     with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
 
-  - lineinfile: dest=/usr/local/etc/slurm.conf regexp='PartitionName={{item.id}} ' line='PartitionName={{item.id}} Nodes={{item.id|replace('_','x')}}[1-{{item.ec3_max_instances_max|int}}] MaxTime=INFINITE State=UP' state=present
+  - lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName={{item.id}} ' line='PartitionName={{item.id}} Nodes={{item.id|replace('_','x')}}[1-{{item.ec3_max_instances_max|int}}] MaxTime=INFINITE State=UP' state=present
     with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
 
   - name: Start SLURM service
