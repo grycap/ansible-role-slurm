@@ -1,6 +1,6 @@
 ---
   - name: Copy 'is_cluster_ready' file
-    copy: dest=/bin/is_cluster_ready src=is_cluster_ready mode=0755
+    copy: dest=/bin/is_cluster_ready src=is_cluster_ready mode=0755 force=no
 
     # Manage the /etc/hosts file
   - shell: |
