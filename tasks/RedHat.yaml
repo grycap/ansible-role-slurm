@@ -1,7 +1,7 @@
 ---
   #SLURM dependences
-  - name: create epel.repo
-    action: template src=utils/templates/epel-es.repo dest=/etc/yum.repos.d/epel.repo
+  - name: Install epel repo
+    yum: name=epel-release
 
   - block:
     - name: update repositories cache and yum install slurm dependences in REL systems
@@ -22,7 +22,7 @@
     when: ansible_distribution_major_version|int == 7
 
   - name: install rpm slurm package
-    command: yum install /etc/ansible/roles/grycap.slurm/files/centos6/slurm-* creates=/etc/init.d/slurm
+    command: yum install /etc/ansible/roles/grycap.slurm/files/centos6/slurm-*
     when: ansible_distribution_major_version|int == 6
 
   - name: Set SLURM conf file path as fact
