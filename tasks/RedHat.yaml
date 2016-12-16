@@ -30,6 +30,3 @@
       SLURM_CONF: "/etc/slurm/slurm.conf"
       SLURM_SERVICE: "slurm"
       SLURM_DAEMON: "slurm"
-
-
-*
