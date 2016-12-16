@@ -13,7 +13,7 @@
       yum: name=readline-devel,openssl,openssl-devel,munge-devel,pam-devel,perl-ExtUtils-MakeMaker,gcc,make,rpm-build,perl-DBI,perl-Switch,psmisc
 
     - name: install all dependences of SLURM
-      yum: name=make,gcc,kernel-headers,gcc-c++,kernel-devel,perl,rpm-build,bzip2-devel,libgcrypt,openssl,openssl-devel update_cache=yes cache_valid_time=3600
+      yum: name=make,gcc,kernel-headers,gcc-c++,kernel-devel,perl,rpm-build,bzip2-devel,libgcrypt,openssl,openssl-devel update_cache=yes
 
     - name: download SLURM package
       get_url: url=http://www.schedmd.com/download/archive/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm-{{ slurm_version }}.tar.bz2
