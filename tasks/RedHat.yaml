@@ -3,6 +3,11 @@
   - name: Install epel repo
     yum: name=epel-release
 
+  - name: Set RedHat facts
+    set_fact:
+      CENTOS6_PKGS: "/etc/ansible/roles/grycap.slurm/files/centos6"
+      CENTOS6_SLURM_VERSION: "16.05.5-1"
+
   - block:
     - name: update repositories cache and yum install slurm dependences in REL systems
       yum: name=readline-devel,openssl,openssl-devel,munge-devel,pam-devel,perl-ExtUtils-MakeMaker,gcc,make,rpm-build,perl-DBI,perl-Switch,psmisc
@@ -22,7 +27,23 @@
     when: ansible_distribution_major_version|int == 7
 
   - name: install rpm slurm package
-    shell: yum install -y /etc/ansible/roles/grycap.slurm/files/centos6/slurm-*
+    yum:
+      name:
+        - {{CENTOS6_PKGS}}/slurm-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-devel-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-munge-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-openlava-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-pam_slurm-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-perlapi-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-plugins-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-seff-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-sjobexit-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-sjstat-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-slurmdb-direct-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-slurmdbd-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-sql-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+        - {{CENTOS6_PKGS}}/slurm-torque-{{CENTOS6_SLURM_VERSION}}.el6.x86_64.rpm
+      state: present
     when: ansible_distribution_major_version|int == 6
 
   - name: Set SLURM conf file path as fact
