@@ -37,3 +37,12 @@
     become: true
     become_user: slurm
     command: scontrol reconfigure
+
+  - block:
+    - name: Restart IM service
+      service: name=im state=restarted
+
+    - name: Restart CLUES service
+      service: name=cluesd state=restarted
+
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int <= 6
