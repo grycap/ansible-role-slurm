@@ -11,7 +11,7 @@
 
   - name: Set Centos 7 facts
     set_fact:
-      SLURM_VERSION: "16.05.5-1.el7"
+      SLURM_VERSION: "16.05.5-1.el7.centos"
       PKG_FOLDER: "centos7"
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7
 
@@ -33,7 +33,7 @@
       - slurm-sql-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-torque-{{SLURM_VERSION}}.x86_64.rpm
 
-  - name: Install rpm torque packages (common)
+  - name: Install rpm slurm packages (common)
     yum:
       name:
         - "/tmp/slurm-{{SLURM_VERSION}}.x86_64.rpm"
