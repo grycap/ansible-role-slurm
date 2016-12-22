@@ -5,6 +5,11 @@
 
   - name: copy slurm.conf file from the frontend
     copy: src=/usr/local/etc/slurm.conf dest=/usr/local/etc/slurm.conf
+    when: ansible_os_family == "Debian"
+ 
+  - name: copy slurm.conf file from the frontend
+    copy: src=/etc/slurm/slurm.conf dest=/etc/slurm/slurm.conf
+    when: ansible_os_family == "RedHat"
 
     # start SLURM daemon
   - name: Start Slurm Daemon
