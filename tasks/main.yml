@@ -3,7 +3,7 @@
     include: "{{ansible_os_family}}.yaml"
 
   - name: create slurm user and group
-    user: name=slurm shell=/bin/bash system=yes
+    user: name="{{slurm_user}}" shell=/bin/bash system=yes
 
   - name: create folders used by SLURM and set slurm owner
     file: path={{item}} state=directory owner=slurm group=slurm
