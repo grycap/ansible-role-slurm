@@ -20,3 +20,5 @@ slurm_user: slurm
 templates: ""
 # Number of Maximun nodes
 max_number_of_nodes: 3
+# Prefix applied to the cluster nodes
+vnode_prefix: wn
