@@ -2,13 +2,12 @@
   - name: Copy 'is_cluster_ready' file
     copy: dest=/bin/is_cluster_ready src=is_cluster_ready mode=0755 force=no
 
-    # Manage the /etc/hosts file
-  - shell: |
-      for i in `seq 1 {{item.ec3_max_instances_max|int }}`; do
-        item="{{item.id|replace('_','x')}}${i}";
-        grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item} ${item}.localdomain" >> /etc/hosts;
-      done
-    with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
+  - name: Update the /etc/hosts file
+    shell: |
+        for i in `seq 1 {{max_number_of_nodes}}`; do
+          item="{{vnode_prefix}}${i}";
+          grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
+        done
 
   - name: Create the slurm.conf file
     template: dest={{ SLURM_CONF }} src=slurm.conf.j2
