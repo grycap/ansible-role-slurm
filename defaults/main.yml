@@ -8,8 +8,6 @@ slurm_type_of_node: front
 slurm_server_name: slurmserver
 # IP address of the SLURM server
 slurm_server_ip: 127.0.0.1
-# Prefix to set to the SLURM working nodes
-slurm_vnode_prefix: wn
 # List of the name of the WNs
 slurm_wn_nodenames: []
 # Number of CPUs of the WNs
