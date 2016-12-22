@@ -9,6 +9,9 @@ language: python
 python: "2.7"
 
 env:
+  global:
+  - ANSIBLE_VARS: {"slurm_type_of_node":"front","SYSTEMS":[{"class":"system","ec3_max_instances_max":1}]}
+  matrix:
   - distro: centos7
     init: /usr/lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
@@ -38,7 +41,7 @@ script:
   - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
 
   # Test role installation.
-  - 'docker exec --tty "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e \'{"slurm_type_of_node":"front","SYSTEMS":[{"class":"system","ec3_max_instances_max":1}]}'}]"\''
+  - 'docker exec --tty "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e ${ANSIBLE_VARS}'
   - 'docker exec --tty "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "slurm_type_of_node=wn IM_NODE_HOSTNAME=wn0"'
 
 notifications:
