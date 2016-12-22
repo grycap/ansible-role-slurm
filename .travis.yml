@@ -10,7 +10,7 @@ python: "2.7"
 
 env:
   global:
-  - ANSIBLE_VARS: {"slurm_type_of_node":"front","SYSTEMS":[{"class":"system","ec3_max_instances_max":1}]}
+  - ANSIBLE_VARS: '{"slurm_type_of_node":"front","SYSTEMS":[{"class":"system","ec3_max_instances_max":1}]}'
   matrix:
   - distro: centos7
     init: /usr/lib/systemd/systemd
