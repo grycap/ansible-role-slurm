@@ -15,25 +15,6 @@
       PKG_FOLDER: "centos7"
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7
 
-  - block:
-    - name: update repositories cache and yum install slurm dependences in REL systems
-      yum: name=readline-devel,openssl,openssl-devel,munge-devel,pam-devel,perl-ExtUtils-MakeMaker,gcc,make,rpm-build,perl-DBI,perl-Switch,psmisc
-
-    - name: install all dependences of SLURM
-      yum: name=make,gcc,kernel-headers,gcc-c++,kernel-devel,perl,rpm-build,bzip2-devel,libgcrypt,openssl,openssl-devel update_cache=yes
-
-    - name: download SLURM package
-      get_url: url=http://www.schedmd.com/download/archive/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm-{{ slurm_version }}.tar.bz2
-
-    - name: build rpm slurm package
-      command: rpmbuild -ta slurm-{{ slurm_version }}.tar.bz2 chdir=/tmp creates=/root/rpmbuild/RPMS/x86_64/slurm-{{ slurm_version }}-1.el7.centos.x86_64.rpm
-
-    - name: install rpm slurm package
-      command: rpm -Uvh ~/rpmbuild/RPMS/x86_64/*.rpm chdir=/tmp creates=/etc/init.d/slurm
-
-    when: ansible_distribution_major_version|int == 7
-
-
   - name: Copy required packages
     copy: src={{PKG_FOLDER}}/{{item}} dest=/tmp/{{item}}
     with_items:
@@ -51,7 +32,6 @@
       - slurm-slurmdbd-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-sql-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-torque-{{SLURM_VERSION}}.x86_64.rpm
-    when: ansible_distribution_major_version|int == 6
 
   - name: Install rpm torque packages (common)
     yum:
@@ -71,7 +51,6 @@
         - "/tmp/slurm-sql-{{SLURM_VERSION}}.x86_64.rpm"
         - "/tmp/slurm-torque-{{SLURM_VERSION}}.x86_64.rpm"
       state: present
-    when: ansible_distribution_major_version|int == 6
 
   - name: Set SLURM conf file path as fact
     set_fact:
