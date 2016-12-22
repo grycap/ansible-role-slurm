@@ -1,6 +1,6 @@
 ---
   - name: install slurm dependences in Deb systems
-    apt: name=libmunge2,libpq5,openssl-blacklist,munge,libmunge-dev,gcc,make update_cache=yes cache_valid_time=3600
+    apt: name=libmunge2,libpq5,openssl-blacklist,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
 
   - name: download SLURM package
     get_url: url=http://www.schedmd.com/download/archive/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
