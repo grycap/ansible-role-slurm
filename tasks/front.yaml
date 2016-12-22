@@ -17,11 +17,10 @@
     when: "'blcr' in templates"
 
   - name: configure compute nodes section of slurm.conf
-    lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName={{item.id|replace('_','x')}}\[' line='NodeName={{item.id|replace('_','x')}}[1-{{item.ec3_max_instances_max|int}}] CPUs=1 State=UNKNOWN' state=present
-    with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
+    lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName=' line='NodeName={{vnode_prefix}}[1-{{max_number_of_nodes}}] CPUs=1 State=UNKNOWN' state=present
 
-  - lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName={{item.id}} ' line='PartitionName={{item.id}} Nodes={{item.id|replace('_','x')}}[1-{{item.ec3_max_instances_max|int}}] MaxTime=INFINITE State=UP' state=present
-    with_items: '{{ SYSTEMS | selectattr("ec3_max_instances_max", "defined") | list }}'
+  - name: configure partition section of slurm.conf
+    lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=default Nodes={{vnode_prefix}}[1-{{max_number_of_nodes}}] MaxTime=INFINITE State=UP' state=present
 
   - name: Start SLURM service
     become: true
