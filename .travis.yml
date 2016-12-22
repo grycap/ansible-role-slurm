@@ -39,7 +39,7 @@ script:
 
   # Test role installation.
   - 'docker exec --tty "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "slurm_type_of_node=front"'
-  - 'docker exec --tty "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "slurm_type_of_node=wn IM_NODE_HOSTNAME=wn0"'
+  #- 'docker exec --tty "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "slurm_type_of_node=wn IM_NODE_HOSTNAME=wn0"'
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
