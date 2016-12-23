@@ -12,15 +12,19 @@ env:
   - distro: centos7
     init: /usr/lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    exec_opts: "--tty"
   - distro: centos6
     init: /sbin/init
     run_opts: "--privileged"
+    exec_opts: ""
   - distro: ubuntu1404
     init: /sbin/init
     run_opts: "--privileged"
+    exec_opts: ""
   - distro: ubuntu1604
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    exec_opts: ""
 
 before_install:
   # Pull container.
@@ -38,8 +42,8 @@ script:
   - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
 
   # Test role installation.
-  - 'docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "slurm_type_of_node=front"'
-  #- 'docker exec --tty "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "slurm_type_of_node=wn IM_NODE_HOSTNAME=wn0"'
+  - 'docker exec ${exec_opts} "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "slurm_type_of_node=front"'
+  #- 'docker exec ${exec_opts} "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "slurm_type_of_node=wn IM_NODE_HOSTNAME=wn0"'
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
