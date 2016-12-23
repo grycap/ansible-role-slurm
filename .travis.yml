@@ -33,9 +33,10 @@ before_install:
 script:
   - server_container_id=$(mktemp)
   - wn_container_id=$(mktemp)
+  - mkdir "${PWD}"/munge
   # Run container in detached state.
-  - 'docker run --detach --hostname slurmserver --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} grycap/travis:${distro} "${init}" > "${server_container_id}"'
-  - 'docker run --detach --hostname wn1 --link "$(cat ${server_container_id})":slurmserver --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} grycap/travis:${distro} "${init}" > "${wn_container_id}"'
+  - 'docker run --detach --hostname slurmserver --volume="${PWD}"/munge:/etc/munge/ --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} grycap/travis:${distro} "${init}" > "${server_container_id}"'
+  - 'docker run --detach --hostname wn1 --link "$(cat ${server_container_id})":slurmserver --volume="${PWD}"/munge:/etc/munge/ --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} grycap/travis:${distro} "${init}" > "${wn_container_id}"'
 
   # install dependencies
   - 'docker exec "$(cat ${server_container_id})" ansible-galaxy install grycap.ntp grycap.munge grycap.im grycap.ssh'
