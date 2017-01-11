@@ -1,6 +1,16 @@
 ---
+  # Add a fast check to speed reconfiguration
+  - stat: path=/usr/local/bin/srun
+    register: slurm_installed
+    when: ansible_os_family == "Debian"
+    
+  - stat: path=/usr/bin/srun
+    register: slurm_installed
+    when: ansible_os_family == "RedHat"
+
   - name: Include "{{ansible_os_family}}" SLURM recipe
     include: "{{ansible_os_family}}.yaml"
+    when: not slurm_installed.stat.exists
 
   - name: create slurm user and group
     user: name="{{slurm_user}}" shell=/bin/bash system=yes
