@@ -41,10 +41,6 @@ script:
   # Ansible syntax check.
   - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
 
-  # Patch for some CentOS 6 name resolution problem
-  - 'docker exec ${exec_opts} "$(cat ${container_id})" echo "127.0.0.1 localhost.localdomain" >> /etc/hosts'
-  - 'docker exec ${exec_opts} "$(cat ${container_id})" echo "127.0.0.1 wn1" >> /etc/hosts'
-
   # Test role installation.
   - 'docker exec ${exec_opts} "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "slurm_type_of_node=front max_number_of_nodes=1"'
   - 'docker exec ${exec_opts} "$(cat ${container_id})" hostname wn1'
