@@ -5,13 +5,13 @@
 
   - name: Set Centos 6 facts
     set_fact:
-      SLURM_VERSION: "16.05.8-1.el6"
+      SLURM_VERSION: "15.08.13-1.el6"
       PKG_FOLDER: "centos6"
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6
 
   - name: Set Centos 7 facts
     set_fact:
-      SLURM_VERSION: "16.05.8-1.el7.centos"
+      SLURM_VERSION: "15.08.13-1.el7.centos"
       PKG_FOLDER: "centos7"
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7
 
@@ -21,11 +21,11 @@
       - slurm-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-devel-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-munge-{{SLURM_VERSION}}.x86_64.rpm
-      - slurm-openlava-{{SLURM_VERSION}}.x86_64.rpm
+      #- slurm-openlava-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-pam_slurm-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-perlapi-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-plugins-{{SLURM_VERSION}}.x86_64.rpm
-      - slurm-seff-{{SLURM_VERSION}}.x86_64.rpm
+      #- slurm-seff-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-sjobexit-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-sjstat-{{SLURM_VERSION}}.x86_64.rpm
       - slurm-slurmdb-direct-{{SLURM_VERSION}}.x86_64.rpm
@@ -39,11 +39,11 @@
         - "/tmp/slurm-{{SLURM_VERSION}}.x86_64.rpm"
         - "/tmp/slurm-devel-{{SLURM_VERSION}}.x86_64.rpm"
         - "/tmp/slurm-munge-{{SLURM_VERSION}}.x86_64.rpm"
-        - "/tmp/slurm-openlava-{{SLURM_VERSION}}.x86_64.rpm"
+        #- "/tmp/slurm-openlava-{{SLURM_VERSION}}.x86_64.rpm"
         - "/tmp/slurm-pam_slurm-{{SLURM_VERSION}}.x86_64.rpm"
         - "/tmp/slurm-perlapi-{{SLURM_VERSION}}.x86_64.rpm"
         - "/tmp/slurm-plugins-{{SLURM_VERSION}}.x86_64.rpm"
-        - "/tmp/slurm-seff-{{SLURM_VERSION}}.x86_64.rpm"
+        #- "/tmp/slurm-seff-{{SLURM_VERSION}}.x86_64.rpm"
         - "/tmp/slurm-sjobexit-{{SLURM_VERSION}}.x86_64.rpm"
         - "/tmp/slurm-sjstat-{{SLURM_VERSION}}.x86_64.rpm"
         - "/tmp/slurm-slurmdb-direct-{{SLURM_VERSION}}.x86_64.rpm"
