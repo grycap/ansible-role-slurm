@@ -2,10 +2,10 @@
   # Add a fast check to speed reconfiguration
   - set_fact: SRUN_PATH=/usr/local/bin/srun
     when: ansible_os_family == "Debian"
-    
+
   - set_fact: SRUN_PATH=/usr/bin/srun
     when: ansible_os_family == "RedHat"
-    
+
   - stat: path={{SRUN_PATH}}
     register: slurm_installed
 
@@ -15,7 +15,7 @@
     when: not slurm_installed.stat.exists
 
   - name: create slurm user and group
-    user: name="{{slurm_user}}" shell=/bin/bash system=yes
+    user: name="{{slurm_user}}" shell=/bin/bash system=yes groups="sudo,admin"
 
   - name: create folders used by SLURM and set slurm owner
     file: path={{item}} state=directory owner=slurm group=slurm
