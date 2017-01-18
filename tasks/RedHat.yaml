@@ -5,14 +5,14 @@
 
   - name: Set Centos 6 facts
     set_fact:
-      SLURM_VERSION: "16.05.5-1.el6"
-      PKG_FOLDER: "centos6/16.05.5"
+      SLURM_VERSION: "16.05.8-1.el6"
+      PKG_FOLDER: "centos6/16.05.8"
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6
 
   - name: Set Centos 7 facts
     set_fact:
-      SLURM_VERSION: "16.05.5-1.el7.centos"
-      PKG_FOLDER: "centos7/16.05.5"
+      SLURM_VERSION: "16.05.8-1.el7.centos"
+      PKG_FOLDER: "centos7/16.05.8"
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7
 
   - name: Copy required packages
