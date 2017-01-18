@@ -35,3 +35,6 @@
     become: true
     become_user: slurm
     command: scontrol reconfigure
+
+  - name: allow the slurm user to acces the slurm logs
+    file: path=/tmp/slurmctld.log mode=0644

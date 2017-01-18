@@ -6,7 +6,7 @@
   - name: copy slurm.conf file from the frontend
     copy: src=/usr/local/etc/slurm.conf dest=/usr/local/etc/slurm.conf
     when: ansible_os_family == "Debian"
- 
+
   - name: copy slurm.conf file from the frontend
     copy: src=/etc/slurm/slurm.conf dest=/etc/slurm/slurm.conf
     when: ansible_os_family == "RedHat"
@@ -17,3 +17,6 @@
 
   - name: Reconfigure SLURM
     command: scontrol reconfigure
+
+  - name: allow the slurm user to acces the slurm logs
+    file: path=/tmp/slurmd.log mode=0644
