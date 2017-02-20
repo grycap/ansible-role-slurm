@@ -14,6 +14,20 @@
     static: false
     when: not slurm_installed.stat.exists
 
+  - name: Set SLURM conf file path as fact RH
+    set_fact:
+      SLURM_CONF: "/etc/slurm/slurm.conf"
+      SLURM_SERVICE: "slurm"
+      SLURM_DAEMON: "slurm"
+    when: ansible_os_family == "RedHat"
+
+  - name: Set SLURM conf file path as fact Debian
+    set_fact:
+      SLURM_CONF: "/usr/local/etc/slurm.conf"
+      SLURM_SERVICE: "slurmctld"
+      SLURM_DAEMON: "slurmd"
+    when: ansible_os_family == "Debian"
+
   - name: create slurm user and group
     user: name="{{slurm_user}}" shell=/bin/bash system=yes
 

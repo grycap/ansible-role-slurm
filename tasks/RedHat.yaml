@@ -52,8 +52,3 @@
         - "/tmp/slurm-torque-{{SLURM_VERSION}}.x86_64.rpm"
       state: present
 
-  - name: Set SLURM conf file path as fact
-    set_fact:
-      SLURM_CONF: "/etc/slurm/slurm.conf"
-      SLURM_SERVICE: "slurm"
-      SLURM_DAEMON: "slurm"
