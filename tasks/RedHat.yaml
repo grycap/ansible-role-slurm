@@ -12,19 +12,19 @@
   - name: Install rpm slurm packages (common)
     yum:
       name:
-        - "slurm-{{SLURM_VERSION}}"
-        - "slurm-devel-{{SLURM_VERSION}}"
-        - "slurm-munge-{{SLURM_VERSION}}"
-        - "slurm-openlava-{{SLURM_VERSION}}"
-        - "slurm-pam_slurm-{{SLURM_VERSION}}"
-        - "slurm-perlapi-{{SLURM_VERSION}}"
-        - "slurm-plugins-{{SLURM_VERSION}}"
-        - "slurm-seff-{{SLURM_VERSION}}"
-        - "slurm-sjobexit-{{SLURM_VERSION}}"
-        - "slurm-sjstat-{{SLURM_VERSION}}"
-        - "slurm-slurmdb-direct-{{SLURM_VERSION}}"
-        - "slurm-slurmdbd-{{SLURM_VERSION}}"
-        - "slurm-sql-{{SLURM_VERSION}}"
-        - "slurm-torque-{{SLURM_VERSION}}"
+        - "slurm-{{slurm_version}}"
+        - "slurm-devel-{{slurm_version}}"
+        - "slurm-munge-{{slurm_version}}"
+        - "slurm-openlava-{{slurm_version}}"
+        - "slurm-pam_slurm-{{slurm_version}}"
+        - "slurm-perlapi-{{slurm_version}}"
+        - "slurm-plugins-{{slurm_version}}"
+        - "slurm-seff-{{slurm_version}}"
+        - "slurm-sjobexit-{{slurm_version}}"
+        - "slurm-sjstat-{{slurm_version}}"
+        - "slurm-slurmdb-direct-{{slurm_version}}"
+        - "slurm-slurmdbd-{{slurm_version}}"
+        - "slurm-sql-{{slurm_version}}"
+        - "slurm-torque-{{slurm_version}}"
       state: present
 
