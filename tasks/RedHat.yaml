@@ -4,7 +4,7 @@
     yum: name=epel-release,yum-priorities
 
   - name: Add GRyCAP Repo key
-    rpm_key: state = present key="http://ftpgrycap.i3m.upv.es/centos/keyFile"
+    rpm_key: state=present key="http://ftpgrycap.i3m.upv.es/centos/keyFile"
 
   - name: Add GRyCAP Repo
     get_url: url="http://ftpgrycap.i3m.upv.es/centos/{{ansible_distribution_major_version}}/grycap.repo" dest=/etc/yum.repos.d/grycap.repo
