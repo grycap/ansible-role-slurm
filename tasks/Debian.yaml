@@ -8,13 +8,8 @@
   - name: install slurm dependences in Deb systems
     apt: name=libmunge2,libpq5,openssl-blacklist,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
 
-  #- name: download SLURM package
-  #  get_url: url=http://www.schedmd.com/download/archive/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
-
-  - name: Copy required packages
-    copy: src={{PKG_FOLDER}}/{{item}} dest=/tmp/slurm.tar.bz2
-    with_items:
-      - slurm-{{slurm_version}}.tar.bz2
+  - name: download SLURM package
+    get_url: url=http://ftpgrycap.i3m.upv.es/src/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
 
   - name: decompress SLURM package
     command: tar xjf slurm.tar.bz2 chdir=/tmp creates=/tmp/slurm-{{ slurm_version }}
