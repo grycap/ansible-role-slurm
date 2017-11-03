@@ -1,10 +1,4 @@
 ---
-  - name: Set Debian facts
-    set_fact:
-      SLURM_VERSION: "16.05.8"
-      PKG_FOLDER: "Debian"
-    when: ansible_os_family == "Debian"
-    
   - name: install slurm dependences in Deb systems
     apt: name=libmunge2,libpq5,openssl-blacklist,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
 
