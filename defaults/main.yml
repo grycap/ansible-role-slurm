@@ -13,6 +13,7 @@ slurm_wn_nodenames: []
 slurm_wn_cpus: 1
 # Default user for ssh and slurm management
 slurm_user: slurm
+slurm_user_id: 5001
 # Templates files
 templates: ""
 # Number of Maximun nodes
