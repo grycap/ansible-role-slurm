@@ -157,5 +157,5 @@ SlurmdLogFile=/tmp/slurmd.log
 #
 # COMPUTE NODES
 
-NodeName=localhost CPUs=1 State=UNKNOWN
+NodeName=localhost CPUs={{slurm_wn_cpus}} State=UNKNOWN
 PartitionName=debug Nodes=localhost Default=YES MaxTime=INFINITE State=UP
