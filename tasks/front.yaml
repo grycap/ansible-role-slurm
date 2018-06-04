@@ -17,7 +17,7 @@
     when: "'blcr' in templates"
 
   - name: configure compute nodes section of slurm.conf
-    lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName=' line='NodeName={{vnode_prefix}}[1-{{max_number_of_nodes}}] CPUs=1 State=UNKNOWN' state=present
+    lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName=' line='NodeName={{vnode_prefix}}[1-{{max_number_of_nodes}}] CPUs={{slurm_wn_cpus}} State=UNKNOWN' state=present
 
   - name: configure partition section of slurm.conf
     lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=debug Nodes={{vnode_prefix}}[1-{{max_number_of_nodes}}] Default=YES MaxTime=INFINITE State=UP' state=present
