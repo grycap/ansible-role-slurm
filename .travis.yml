@@ -40,7 +40,7 @@ script:
   - 'docker run --detach --hostname slurmserver --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} grycap/travis:${distro} "${init}" > "${container_id}"'
 
   # install dependencies
-  - 'docker exec "$(cat ${container_id})" ${install_opts}'
+  - 'docker exec "$(cat ${container_id})" "${install_opts}"'
   - 'docker exec "$(cat ${container_id})" ansible-galaxy install grycap.ntp grycap.munge grycap.im grycap.ssh'
 
   # Ansible syntax check.
