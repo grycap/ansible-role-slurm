@@ -17,7 +17,7 @@
     wait_for:
       path: /etc/slurm/slurm.conf
     delegate_to: "{{slurm_server_name}}"
-    when: ansible_os_family == "Debian"
+    when: ansible_os_family == "RedHat"
 
   - name: copy slurm.conf file from the frontend
     copy: src=/etc/slurm/slurm.conf dest=/etc/slurm/slurm.conf
