@@ -17,13 +17,13 @@ env:
     init: /sbin/init
     run_opts: "--privileged"
     exec_opts: ""
-  - distro: ubuntu1404
-    init: /sbin/init
-    run_opts: "--privileged"
-    exec_opts: ""
   - distro: ubuntu1604
     init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    exec_opts: ""
+  - distro: ubuntu1804
+    init: /bin/bash
+    run_opts: "-t --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     exec_opts: ""
 
 before_install:
