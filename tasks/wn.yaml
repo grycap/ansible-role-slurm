@@ -7,7 +7,7 @@
     when: ansible_os_family == "Debian"
 
   - set_fact: slurm_conf_filename=/etc/slurm/slurm.conf
-    when: ansible_os_family == "Debian"
+    when: ansible_os_family == "RedHat"
 
   - name: Wait for master
     wait_for:
