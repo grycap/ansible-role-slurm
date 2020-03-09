@@ -2,26 +2,21 @@
   - service: name=firewalld state=stopped
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7
     ignore_errors: yes
-    
-  - name: Wait for master
-    wait_for:
-      path: /usr/local/etc/slurm.conf
-    delegate_to: "{{slurm_server_name}}"
+
+  - set_fact: slurm_conf_filename=/usr/local/etc/slurm.conf
     when: ansible_os_family == "Debian"
 
-  - name: copy slurm.conf file from the frontend
-    copy: src=/usr/local/etc/slurm.conf dest=/usr/local/etc/slurm.conf
-    when: ansible_os_family == "Debian"
+  - set_fact: slurm_conf_filename=/etc/slurm/slurm.conf
+    when: ansible_os_family == "RedHat"
 
   - name: Wait for master
     wait_for:
-      path: /etc/slurm/slurm.conf
+      path: "{{ slurm_conf_filename }}"
     delegate_to: "{{slurm_server_name}}"
-    when: ansible_os_family == "RedHat"
+    when: TEST is not defined
 
   - name: copy slurm.conf file from the frontend
-    copy: src=/etc/slurm/slurm.conf dest=/etc/slurm/slurm.conf
-    when: ansible_os_family == "RedHat"
+    copy: src={{ slurm_conf_filename }} dest={{ slurm_conf_filename }}
 
     # start SLURM daemon
   - name: Start Slurm Daemon
