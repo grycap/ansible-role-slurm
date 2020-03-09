@@ -1,6 +1,10 @@
 ---
   - name: install slurm dependences in Deb systems
-    apt: name=libmunge2,libpq5,openssl-blacklist,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
+    apt: name=libmunge2,libpq5,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
+
+  - name: install slurm dependences in Deb systems
+    apt: name=openssl-blacklist
+    when: ansible_distribution_major_version|int <= 16
 
   - name: download SLURM package
     get_url: url=http://ftpgrycap.i3m.upv.es/src/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
