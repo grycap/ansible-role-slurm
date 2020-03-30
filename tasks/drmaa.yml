@@ -1,0 +1,57 @@
+---
+  # Install DRMAA Library for slurm
+  - set_fact:
+      INSTALL_PATH: /opt
+      ID_FILE: "9"
+      FILENAME: "slurm-drmaa-1.0.7"
+
+  - name: Check if lib exists
+    stat: path=/usr/local/lib/libdrmaa.so
+    register: libstat
+
+  - block:
+
+    - name: Install GCC
+      package: name=gcc state=present
+
+    - name: Download lib
+      get_url:
+        url: http://apps.man.poznan.pl/trac/slurm-drmaa/downloads/9
+        dest: "{{ INSTALL_PATH }}/{{ FILENAME }}.tgz"
+
+    - name: unarchive lib
+      unarchive:
+        src: "{{ INSTALL_PATH }}/{{ FILENAME }}.tgz"
+        dest: "{{ INSTALL_PATH }}"
+        creates: "{{ INSTALL_PATH }}/{{ FILENAME }}"
+        remote_src: yes
+
+    - set_fact:
+        SLURM_LIB: /usr/local/lib
+        SLURM_INC: /usr/local/include
+      when: ansible_os_family == "Debian"
+
+    - set_fact:
+        SLURM_LIB: /usr/lib
+        SLURM_INC: /usr/include
+      when: ansible_os_family == "RedHat"
+
+    - name: Configure lib
+      command:
+        cmd: ./configure --with-slurm-inc={{ SLURM_INC }} --with-slurm-lib={{ SLURM_LIB }} --sysconfdir=/etc
+        creates: "{{ INSTALL_PATH }}/{{ FILENAME }}/Makefile"
+        chdir: "{{ INSTALL_PATH }}/{{ FILENAME }}"
+
+    - name: Compile
+      command:
+        cmd: make
+        chdir: "{{ INSTALL_PATH }}/{{ FILENAME }}/"
+        creates: "{{ INSTALL_PATH }}/{{ FILENAME }}/slurm_drmaa/.libs/libdrmaa.so"
+
+    - name: Install
+      command:
+        cmd: make install
+        creates: "/usr/local/lib/libdrmaa.so"
+        chdir: "{{ INSTALL_PATH }}/{{ FILENAME }}/"
+
+    when: not libstat.stat.exists

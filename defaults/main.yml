@@ -20,3 +20,5 @@ templates: ""
 max_number_of_nodes: 3
 # Prefix applied to the cluster nodes
 vnode_prefix: wn
+# Install DRMAA library
+drmaa_lib_install: false

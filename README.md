@@ -27,6 +27,8 @@ The variables that can be passed to this role and a brief description about them
 	slurm_wn_cpus: 1
 	# Default ssh user
 	user: user1
+	# Install DRMAA library
+	drmaa_lib_install: false
 
 Example Playbook
 ----------------
