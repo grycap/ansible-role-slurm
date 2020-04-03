@@ -41,3 +41,7 @@
 
   - name: Include "{{slurm_type_of_node}}" SLURM recipe
     include: "{{slurm_type_of_node}}.yaml"
+
+  - name: Install DRMAA Lib
+    include: drmaa.yml
+    when: drmaa_lib_install 
