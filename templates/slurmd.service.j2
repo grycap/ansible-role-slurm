@@ -7,8 +7,8 @@ After=syslog.target
 [Service]
 UMask=022
 Type=simple
-User={{slurm_user}}
-Group={{slurm_user}}
+User=root
+Group=root
 TimeoutStartSec=30
 ExecStart={{ SLURM_DAEMON }} -D
 MemoryLimit=6G
