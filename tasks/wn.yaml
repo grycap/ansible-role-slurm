@@ -9,8 +9,9 @@
     delegate_to: "{{slurm_server_name}}"
     when: TEST is not defined
 
-  - name: Create the slurm.conf file
-    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
+  - name: copy slurm.conf file from the frontend
+    copy: src={{ SLURM_CONF }} dest={{ SLURM_CONF }}
+    delegate_to: "{{slurm_server_name}}"
 
   - name: Wait 5 secs to enable slurm to start
     pause:
