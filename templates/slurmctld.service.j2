@@ -1,0 +1,23 @@
+[Unit]
+Description=SLURM
+After=network.target
+After=time-sync.target
+After=syslog.target
+
+[Service]
+UMask=022
+Type=simple
+User={{slurm_user}}
+Group={{slurm_user}}
+WorkingDirectory={{ galaxy_pulsar_path }}
+TimeoutStartSec=30
+ExecStart={{ SLURM_SERVICE }}
+MemoryLimit=6G
+Restart=always
+
+MemoryAccounting=yes
+CPUAccounting=yes
+BlockIOAccounting=yes
+
+[Install]
+WantedBy=multi-user.target

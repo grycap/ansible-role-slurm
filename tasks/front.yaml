@@ -12,41 +12,34 @@
   - name: Create the slurm.conf file
     template: dest={{ SLURM_CONF }} src=slurm.conf.j2
 
-  - name: Set blcr config in SLURM
-    lineinfile: dest={{ SLURM_CONF }} regexp='#CheckpointType=' line='CheckpointType=checkpoint/blcr' state=present
-    when: "'blcr' in templates"
+  - name: Create slurmctld systemd unit file
+    template:
+      src: "slurmctld.service.j2"
+      dest: "/etc/systemd/system/slurmctld.service"
 
-  - block:
-    - name: configure compute nodes section of slurm.conf
-      lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName=' line='NodeName={{ slurm_wn_nodenames | join(",") }} CPUs={{ slurm_wn_cpus }} State=UNKNOWN' state=present
+  - name: SystemD daemon-reload and enable/start slurmctld service
+    systemd:
+      state: started
+      enabled: yes
+      name: slurmctld.service
+      daemon_reload: yes
 
-    - name: configure partition section of slurm.conf
-      lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=debug Nodes={{ slurm_wn_nodenames | join(",") }} Default=YES MaxTime=INFINITE State=UP' state=present
-    when: slurm_wn_nodenames != []
+  - name: Create slurmd systemd unit file
+    template:
+      src: "slurmd.service.j2"
+      dest: "/etc/systemd/system/slurmd.service"
 
-  - block:
-
-    - name: configure compute nodes section of slurm.conf
-      lineinfile: dest={{ SLURM_CONF }}  regexp='NodeName=' line='NodeName={{vnode_prefix}}[1-{{max_number_of_nodes}}] CPUs={{slurm_wn_cpus}} State=UNKNOWN' state=present
-
-    - name: configure partition section of slurm.conf
-      lineinfile: dest={{ SLURM_CONF }} regexp='PartitionName=' line='PartitionName=debug Nodes={{vnode_prefix}}[1-{{max_number_of_nodes}}] Default=YES MaxTime=INFINITE State=UP' state=present
-
-    when: slurm_wn_nodenames == []
-
-  - name: Start SLURM service
-    become: true
-    become_user: slurm
-    command: slurmctld
-
-  - name: Ensure slurmd is not running in front node
-    shell: pgrep slurmd && killall slurmd
-    ignore_errors: yes
+  - name: SystemD daemon-reload and enable/start slurmd service
+    systemd:
+      state: started
+      enabled: yes
+      name: slurmd.service
+      daemon_reload: yes
 
   - name: Reconfigure SLURM
     become: true
-    become_user: slurm
+    become_user: {{slurm_user}}
     command: scontrol reconfigure
 
   - name: allow the slurm user to acces the slurm logs
-    file: path=/tmp/slurmctld.log mode=0644
+    file: path=/var/log/slurm/slurmctld.log mode=0644
