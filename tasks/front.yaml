@@ -24,18 +24,6 @@
       name: slurmctld.service
       daemon_reload: yes
 
-  - name: Create slurmd systemd unit file
-    template:
-      src: "slurmd.service.j2"
-      dest: "/etc/systemd/system/slurmd.service"
-
-  - name: SystemD daemon-reload and enable/start slurmd service
-    systemd:
-      state: started
-      enabled: yes
-      name: slurmd.service
-      daemon_reload: yes
-
   - name: Reconfigure SLURM
     become: true
     become_user: "{{slurm_user}}"

@@ -10,7 +10,7 @@ Type=simple
 User={{slurm_user}}
 Group={{slurm_user}}
 TimeoutStartSec=30
-ExecStart={{ SLURM_SERVICE }}
+ExecStart={{ SLURM_SERVICE }} -D
 MemoryLimit=6G
 Restart=always
 
