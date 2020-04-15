@@ -38,7 +38,7 @@
 
   - name: Reconfigure SLURM
     become: true
-    become_user: {{slurm_user}}
+    become_user: "{{slurm_user}}"
     command: scontrol reconfigure
 
   - name: allow the slurm user to acces the slurm logs
