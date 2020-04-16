@@ -17,15 +17,15 @@
   - name: Set SLURM conf file path as fact RH
     set_fact:
       SLURM_CONF: "/etc/slurm/slurm.conf"
-      SLURM_SERVICE: "slurm"
-      SLURM_DAEMON: "slurm"
+      SLURM_SERVICE: "/usr/sbin/slurmctld"
+      SLURM_DAEMON: "/usr/sbin/slurmd"
     when: ansible_os_family == "RedHat"
 
   - name: Set SLURM conf file path as fact Debian
     set_fact:
       SLURM_CONF: "/usr/local/etc/slurm.conf"
-      SLURM_SERVICE: "slurmctld"
-      SLURM_DAEMON: "slurmd"
+      SLURM_SERVICE: "/usr/local/sbin/slurmctld"
+      SLURM_DAEMON: "/usr/local/sbin/slurmd"
     when: ansible_os_family == "Debian"
 
   - name: create slurm user and group

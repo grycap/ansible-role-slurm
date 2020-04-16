@@ -11,6 +11,8 @@ slurm_server_ip: 127.0.0.1
 slurm_wn_nodenames: []
 # Number of CPUs of the WNs
 slurm_wn_cpus: 1
+# Amount of memory of the WNs (in MB, see RealMemory). If 0 it is not set
+slurm_wn_mem: 0
 # Default user for ssh and slurm management
 slurm_user: slurm
 slurm_user_id: 5001

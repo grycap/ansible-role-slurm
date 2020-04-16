@@ -3,27 +3,36 @@
     when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int >= 7
     ignore_errors: yes
 
-  - set_fact: slurm_conf_filename=/usr/local/etc/slurm.conf
-    when: ansible_os_family == "Debian"
-
-  - set_fact: slurm_conf_filename=/etc/slurm/slurm.conf
-    when: ansible_os_family == "RedHat"
-
   - name: Wait for master
     wait_for:
-      path: "{{ slurm_conf_filename }}"
+      path: "{{ SLURM_CONF }}"
     delegate_to: "{{slurm_server_name}}"
     when: TEST is not defined
 
   - name: copy slurm.conf file from the frontend
-    copy: src={{ slurm_conf_filename }} dest={{ slurm_conf_filename }}
+    copy: src={{ SLURM_CONF }} dest={{ SLURM_CONF }} force=yes
+
+  - name: Wait 5 secs to enable slurm to start
+    pause:
+      seconds: 5
 
     # start SLURM daemon
-  - name: Start Slurm Daemon
-    command: slurmd
+  - name: Create slurmd systemd unit file
+    template:
+      src: "slurmd.service.j2"
+      dest: "/etc/systemd/system/slurmd.service"
+
+  - name: SystemD daemon-reload and enable/start slurmd service
+    systemd:
+      state: started
+      enabled: yes
+      name: slurmd.service
+      daemon_reload: yes
 
   - name: Reconfigure SLURM
     command: scontrol reconfigure
+    become: true
+    become_user: "{{slurm_user}}"
 
   - name: allow the slurm user to acces the slurm logs
-    file: path=/tmp/slurmd.log mode=0644
+    file: path=/var/log/slurm/slurmd.log mode=0644

@@ -1,0 +1,22 @@
+[Unit]
+Description=SLURM
+After=network.target
+After=time-sync.target
+After=syslog.target
+
+[Service]
+UMask=022
+Type=simple
+User={{slurm_user}}
+Group={{slurm_user}}
+TimeoutStartSec=30
+ExecStart={{ SLURM_SERVICE }} -D
+MemoryLimit=6G
+Restart=always
+
+MemoryAccounting=yes
+CPUAccounting=yes
+BlockIOAccounting=yes
+
+[Install]
+WantedBy=multi-user.target
