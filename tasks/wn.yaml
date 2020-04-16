@@ -35,4 +35,4 @@
     become_user: "{{slurm_user}}"
 
   - name: allow the slurm user to acces the slurm logs
-    file: path=/tmp/slurmd.log mode=0644
+    file: path=/var/log/slurm/slurmd.log mode=0644
