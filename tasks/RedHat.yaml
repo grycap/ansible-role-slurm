@@ -9,7 +9,7 @@
   - name: Add GRyCAP Repo
     get_url: url="http://ftpgrycap.i3m.upv.es/centos/{{ansible_distribution_major_version}}/grycap.repo" dest=/etc/yum.repos.d/grycap.repo
 
-  - name: Install rpm slurm packages (common for versions 17 and beyond)
+  - name: Install rpm slurm packages (common for versions 17.11 and beyond)
     yum:
       name:
         - "slurm-{{slurm_version}}"
