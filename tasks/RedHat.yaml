@@ -9,22 +9,20 @@
   - name: Add GRyCAP Repo
     get_url: url="http://ftpgrycap.i3m.upv.es/centos/{{ansible_distribution_major_version}}/grycap.repo" dest=/etc/yum.repos.d/grycap.repo
 
-  - name: Install rpm slurm packages (common)
+  - name: Install rpm slurm packages (common for versions 17 and beyond)
     yum:
       name:
         - "slurm-{{slurm_version}}"
         - "slurm-devel-{{slurm_version}}"
-        - "slurm-munge-{{slurm_version}}"
         - "slurm-openlava-{{slurm_version}}"
         - "slurm-pam_slurm-{{slurm_version}}"
         - "slurm-perlapi-{{slurm_version}}"
-        - "slurm-plugins-{{slurm_version}}"
-        - "slurm-seff-{{slurm_version}}"
-        - "slurm-sjobexit-{{slurm_version}}"
-        - "slurm-sjstat-{{slurm_version}}"
-        - "slurm-slurmdb-direct-{{slurm_version}}"
         - "slurm-slurmdbd-{{slurm_version}}"
-        - "slurm-sql-{{slurm_version}}"
         - "slurm-torque-{{slurm_version}}"
+        - "slurm-slurmd-{{slurm_version}}"
+        - "slurm-slurmctld-{{slurm_version}}"
+        - "slurm-libpmi-{{slurm_version}}"
+        - "slurm-example-configs-{{slurm_version}}"
+        - "slurm-slurm-contribs-{{slurm_version}}"
       state: present
 
