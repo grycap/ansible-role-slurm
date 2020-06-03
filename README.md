@@ -12,7 +12,7 @@ Role Variables
 The variables that can be passed to this role and a brief description about them are as follows.
 
 	# SLURM version to install (in case of RH systems)
-	slurm_version: 16.05.11
+	slurm_version: 20.02.3
 	# Type of node to install: front or wn
 	slurm_type_of_node: front
 	# Name of the SLURM server
