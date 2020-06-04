@@ -23,6 +23,6 @@
         - "slurm-slurmctld-{{slurm_version}}"
         - "slurm-libpmi-{{slurm_version}}"
         - "slurm-example-configs-{{slurm_version}}"
-        - "slurm-slurm-contribs-{{slurm_version}}"
+        - "slurm-contribs-{{slurm_version}}"
       state: present
 
