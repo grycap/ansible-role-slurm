@@ -25,4 +25,25 @@
         - "slurm-example-configs-{{slurm_version}}"
         - "slurm-contribs-{{slurm_version}}"
       state: present
+    when: slurm_version is version('17.11', '>=')
+  
+  - name: Install rpm slurm packages (common for versions 16 and older)
+    yum:
+      name:
+        - "slurm-{{slurm_version}}"
+        - "slurm-devel-{{slurm_version}}"
+        - "slurm-munge-{{slurm_version}}"
+        - "slurm-openlava-{{slurm_version}}"
+        - "slurm-pam_slurm-{{slurm_version}}"
+        - "slurm-perlapi-{{slurm_version}}"
+        - "slurm-plugins-{{slurm_version}}"
+        - "slurm-seff-{{slurm_version}}"
+        - "slurm-sjobexit-{{slurm_version}}"
+        - "slurm-sjstat-{{slurm_version}}"
+        - "slurm-slurmdb-direct-{{slurm_version}}"
+        - "slurm-slurmdbd-{{slurm_version}}"
+        - "slurm-sql-{{slurm_version}}"
+        - "slurm-torque-{{slurm_version}}"
+      state: present
+    when: slurm_version is version('17.11', '<')
 
