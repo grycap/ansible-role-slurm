@@ -19,6 +19,7 @@
       SLURM_CONF: "/etc/slurm/slurm.conf"
       SLURM_SERVICE: "/usr/sbin/slurmctld"
       SLURM_DAEMON: "/usr/sbin/slurmd"
+      GRES_CONF: "/etc/slurm/gres.conf"
     when: ansible_os_family == "RedHat"
 
   - name: Set SLURM conf file path as fact Debian
@@ -26,6 +27,7 @@
       SLURM_CONF: "/usr/local/etc/slurm.conf"
       SLURM_SERVICE: "/usr/local/sbin/slurmctld"
       SLURM_DAEMON: "/usr/local/sbin/slurmd"
+      GRES_CONF: "/usr/local/etc/gres.conf"
     when: ansible_os_family == "Debian"
 
   - name: create slurm user and group
