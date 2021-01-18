@@ -5,3 +5,4 @@
       slurm_wn_cpus: 2
       slurm_wn_mem: 1048576
       slurm_wn_gres: "gpu:tesla:2"
+      slurm_server_name: localhost
