@@ -8,7 +8,7 @@ platforms:
     image: ${MOLECULE_DISTRO:-"ubuntu:18.04"}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
+    privileged: false
     pre_build_image: true
 provisioner:
   name: ansible
