@@ -2,6 +2,9 @@
 - name: Converge
   hosts: all
   become: true
+  vars:
+    ntp_enabled: false
+
   tasks:
 
     - name: "Include grycap.slurm"
