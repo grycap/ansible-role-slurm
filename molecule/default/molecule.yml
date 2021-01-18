@@ -5,7 +5,7 @@ driver:
   name: docker
 platforms:
   - name: instance
-    image: ${MOLECULE_DISTRO:-"ubuntu:18.04"}
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
