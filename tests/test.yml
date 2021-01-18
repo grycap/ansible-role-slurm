@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   roles:
-    - role: ansible-role.slurm
+    - role: ansible-role-slurm
       slurm_wn_cpus: 2
       slurm_wn_mem: 1048576
       slurm_wn_gres: "gpu:tesla:2"

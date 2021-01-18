@@ -14,12 +14,6 @@ jobs:
   molecule:
     name: Molecule
     runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        distro:
-          - "centos8"
-          - "centos7"
-          - "ubuntu1804"
 
     steps:
       - name: checkout
