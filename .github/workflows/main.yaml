@@ -20,7 +20,6 @@ jobs:
           - "centos8"
           - "centos7"
           - "ubuntu1804"
-          - "ubuntu2004"
 
     steps:
       - name: Check out the codebase.
