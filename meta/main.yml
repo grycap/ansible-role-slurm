@@ -12,6 +12,6 @@ galaxy_info:
     - slurm
     - lrms
 dependencies:
-  - { role: 'grycap.ntp', ntp_config_server: [ntp.upv.es, ntp.uv.es] }
+  - { role: 'geerlingguy.ntp', ntp_servers: [ntp.upv.es, ntp.uv.es] }
   - { role: 'grycap.munge', munge_type_of_node: "{{ slurm_type_of_node }}" }
   - { role: 'grycap.ssh', ssh_type_of_node: "{{ slurm_type_of_node }}", ssh_user: "{{ slurm_user }}" }
