@@ -163,7 +163,7 @@ SlurmdLogFile=/var/log/slurm/slurmd.log
 
 {%- set gres = "" -%}
 {%- if slurm_wn_gres != "" -%}
-  {%- set gres = "Gres=%s" % slurm_wn_gres" -%}
+  {%- set gres = "Gres=%s" % slurm_wn_gres -%}
 {%- endif -%}
 
 {% if slurm_wn_nodenames != [] %}
