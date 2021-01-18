@@ -22,29 +22,23 @@ jobs:
           - "ubuntu1804"
 
     steps:
-      - name: Check out the codebase.
+      - name: checkout
         uses: actions/checkout@v2
 
-      - name: Set up Python 3.
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+      - name: Install python
+        run: sudo apt update && sudo apt install -y python3 python3-pip python3-setuptools
 
-      - name: Install test dependencies.
-        run: pip3 install ansible molecule[docker] docker
+      - name: Install Ansible
+        run: sudo pip3 install ansible
 
-      - name: Install geerlingguy.ntp role
-        run: ansible-galaxy install geerlingguy.ntp
+      - name: Create ansible.cfg with correct roles_path
+        run: sudo printf '[defaults]\nhost_key_checking = False\nroles_path=../' > ansible.cfg
+  
+      - name: Install role dependencies
+        run: sudo ansible-galaxy install geerlingguy.ntp grycap.munge grycap.ssh
 
-      - name: Install grycap.munge role
-        run: ansible-galaxy install grycap.munge
+      - name: Basic role syntax check
+        run: sudo ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
-      - name: Install grycap.ssh role
-        run: ansible-galaxy install grycap.ssh
-
-      - name: Run Molecule tests.
-        run: molecule test
-        env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_DISTRO: ${{ matrix.distro }}
+      - name: Basic role check in front
+        run: sudo ansible-playbook tests/test.yml -i tests/inventory
