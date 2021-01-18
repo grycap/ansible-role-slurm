@@ -12,6 +12,10 @@
   - name: copy slurm.conf file from the frontend
     copy: src={{ SLURM_CONF }} dest={{ SLURM_CONF }} force=yes
 
+  - name: copy gres.conf file from the frontend
+    copy: src={{ GRES_CONF }} dest={{ GRES_CONF }} force=yes
+    when: slurm_wn_gres != ""
+
   - name: Wait 5 secs to enable slurm to start
     pause:
       seconds: 5

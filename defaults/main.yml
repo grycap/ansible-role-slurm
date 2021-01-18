@@ -15,6 +15,8 @@ slurm_wn_ips: []
 slurm_wn_cpus: 1
 # Amount of memory of the WNs (in MB, see RealMemory). If 0 it is not set
 slurm_wn_mem: 0
+# GRES specification for the WN
+slurm_wn_gres: ""
 # Default user for ssh and slurm management
 slurm_user: slurm
 slurm_user_id: 5001

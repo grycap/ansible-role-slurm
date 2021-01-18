@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+
+    - name: "Include grycap.slurm"
+      include_role:
+        name: "ansible-role-slurm"
+      vars:
+        slurm_wn_cpus: 2
+        slurm_wn_mem: 1048576
+        slurm_wn_gres: "gpu:tesla:2"
