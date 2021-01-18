@@ -37,6 +37,12 @@ jobs:
       - name: Install grycap.ntp role
         run: ansible-galaxy install grycap.ntp
 
+      - name: Install grycap.munge role
+        run: ansible-galaxy install grycap.munge
+
+      - name: Install grycap.ssh role
+        run: ansible-galaxy install grycap.ssh
+
       - name: Run Molecule tests.
         run: molecule test
         env:
