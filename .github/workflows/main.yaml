@@ -36,3 +36,12 @@ jobs:
 
       - name: Basic role check in front
         run: sudo ansible-playbook tests/test.yml -i tests/inventory
+
+      - name: Idempotence role check in front
+        run: sudo ansible-playbook tests/test.yml -i tests/inventory
+
+      - name: Basic role check in wn
+        run: sudo ansible-playbook tests/test.yml -i tests/inventory -e slurm_type_of_node=wn
+
+      - name: Idempotence role check in wn 
+        run: sudo ansible-playbook tests/test.yml -i tests/inventory -e slurm_type_of_node=wn
