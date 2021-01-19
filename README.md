@@ -27,6 +27,13 @@ The variables that can be passed to this role and a brief description about them
 	slurm_wn_cpus: 1
 	# Amount of memory of the WNs (in MB, see RealMemory). If 0 it is not set
 	slurm_wn_mem: 0
+	# GRES specification for the WN
+	slurm_wn_gres: ""
+	# GRES types specification for the WN
+	slurm_wn_gres_tpes: ""
+	# GRES conf data file
+	slurm_wn_gres_conf: "AutoDetect=nvml"
+	# Default user for ssh and slurm management
 	# Default ssh user
 	user: user1
 	# Install DRMAA library
