@@ -38,5 +38,10 @@
     become: true
     become_user: "{{slurm_user}}"
 
+  - stat:
+      path: /var/log/slurm/slurmd.log
+    register: log
+
   - name: allow the slurm user to acces the slurm logs
     file: path=/var/log/slurm/slurmd.log mode=0644
+    when: log.stat.exists
