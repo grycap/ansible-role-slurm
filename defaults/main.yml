@@ -17,6 +17,10 @@ slurm_wn_cpus: 1
 slurm_wn_mem: 0
 # GRES specification for the WN
 slurm_wn_gres: ""
+# GRES types specification for the WN
+slurm_wn_gres_tpes: ""
+# GRES conf data file
+slurm_wn_gres_conf: "AutoDetect=nvml"
 # Default user for ssh and slurm management
 slurm_user: slurm
 slurm_user_id: 5001

@@ -166,6 +166,10 @@ SlurmdLogFile=/var/log/slurm/slurmd.log
   {%- set gres = "Gres=%s" % slurm_wn_gres -%}
 {%- endif -%}
 
+{%- if slurm_wn_gres_tpes != "" -%}
+GresTypes={{ slurm_wn_gres_tpes }}
+{%- endif -%}
+
 {% if slurm_wn_nodenames != [] %}
 
 NodeName={{ slurm_wn_nodenames | join(",") }} CPUs={{ slurm_wn_cpus }} {{ 'RealMemory = %d' % slurm_wn_mem if slurm_wn_mem > 0 else '' }} {{ gres }} State=UNKNOWN
