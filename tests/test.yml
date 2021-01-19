@@ -6,3 +6,6 @@
       slurm_wn_mem: 1048576
       slurm_wn_gres: "gpu:tesla:2"
       slurm_server_name: localhost
+      slurm_wn_ips: ["127.0.0.1"]
+      slurm_vnode_prefix: vnode-
+      max_number_of_nodes: 1

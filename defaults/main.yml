@@ -29,6 +29,6 @@ templates: ""
 # Number of Maximun nodes
 max_number_of_nodes: 3
 # Prefix applied to the cluster nodes
-vnode_prefix: wn
+slurm_vnode_prefix: wn
 # Install DRMAA library
 drmaa_lib_install: false
