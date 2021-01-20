@@ -5,12 +5,16 @@
   - name: Update the /etc/hosts file
     shell: |
         for i in `seq 1 {{max_number_of_nodes}}`; do
-          item="{{vnode_prefix}}${i}";
+          item="{{slurm_vnode_prefix}}${i}";
           grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
         done
 
   - name: Create the slurm.conf file
     template: dest={{ SLURM_CONF }} src=slurm.conf.j2
+
+  - name: Create the gres.conf file
+    template: dest={{ GRES_CONF }} src=gres.conf.j2
+    when: slurm_wn_gres != ""
 
   - name: Create slurmctld systemd unit file
     template:

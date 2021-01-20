@@ -12,6 +12,10 @@
   - name: copy slurm.conf file from the frontend
     copy: src={{ SLURM_CONF }} dest={{ SLURM_CONF }} force=yes
 
+  - name: copy gres.conf file from the frontend
+    copy: src={{ GRES_CONF }} dest={{ GRES_CONF }} force=yes
+    when: slurm_wn_gres != ""
+
   - name: Wait 5 secs to enable slurm to start
     pause:
       seconds: 5
@@ -34,5 +38,10 @@
     become: true
     become_user: "{{slurm_user}}"
 
+  - stat:
+      path: /var/log/slurm/slurmd.log
+    register: log
+
   - name: allow the slurm user to acces the slurm logs
     file: path=/var/log/slurm/slurmd.log mode=0644
+    when: log.stat.exists
