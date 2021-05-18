@@ -1,7 +1,11 @@
 ---
   #SLURM dependences
   - name: Install epel repo
-    yum: name=epel-release,yum-priorities
+    yum: name=epel-release
+
+  - name: Install yum-priorities
+    yum: name=yum-priorities
+    when: ansible_distribution_major_version|int < 8
 
   - name: Add GRyCAP Repo key
     rpm_key: state=present key="http://ftpgrycap.i3m.upv.es/centos/keyFile"

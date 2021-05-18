@@ -161,14 +161,14 @@ SlurmdLogFile=/var/log/slurm/slurmd.log
 #
 # COMPUTE NODES
 
-{%- set gres = "" -%}
-{%- if slurm_wn_gres != "" -%}
+{% set gres = "" %}
+{% if slurm_wn_gres != "" %}
   {%- set gres = "Gres=%s" % slurm_wn_gres -%}
-{%- endif -%}
+{% endif %}
 
-{%- if slurm_wn_gres_tpes != "" -%}
+{% if slurm_wn_gres_tpes != "" %}
 GresTypes={{ slurm_wn_gres_tpes }}
-{%- endif -%}
+{% endif %}
 
 {% if slurm_wn_nodenames != [] %}
 
