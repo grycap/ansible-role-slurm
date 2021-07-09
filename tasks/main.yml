@@ -5,8 +5,8 @@
   - set_fact:
       install_from_source: false
     when: >
-      (slurm_version == 19.05.5 and ansible_distribution_version == "20.04") or
-      (slurm_version == 17.11.2 and ansible_distribution_version == "18.04")
+      (slurm_version == "19.05.5" and ansible_distribution_version == "20.04") or
+      (slurm_version == "17.11.2" and ansible_distribution_version == "18.04")
 
   # Add a fast check to speed reconfiguration
   - set_fact: SRUN_PATH=/usr/local/bin/srun
