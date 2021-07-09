@@ -1,23 +1,39 @@
 ---
-  - name: install slurm dependences in Deb systems
-    apt: name=libmunge2,libpq5,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
+  - set_fact:
+      install_from_source: true
 
-  - name: install slurm dependences in Deb systems
-    apt: name=openssl-blacklist
-    when: ansible_distribution_major_version|int <= 16
+  - set_fact:
+      install_from_source: false
+    when: >
+      (slurm_version == 19.05.5 and ansible_distribution_major_version == "20") or
+      (slurm_version == 17.11.2 and ansible_distribution_version == "18.04")
 
-  - name: download SLURM package
-    get_url: url=http://ftpgrycap.i3m.upv.es/src/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
+  - block:
+      apt: name=slurm-wlm
+    when: not install_from_source
 
-  - name: decompress SLURM package
-    command: tar xjf slurm.tar.bz2 chdir=/tmp creates=/tmp/slurm-{{ slurm_version }}
+  - block:  
 
-  - name: configure SLURM
-    command: ./configure {{ "--with-blcr=/usr/local/bin" if "blcr" in templates else "" }} chdir=/tmp/slurm-{{ slurm_version }} creates=/tmp/slurm-{{ slurm_version }}/config.log
+      - name: install slurm dependences in Deb systems
+        apt: name=libmunge2,libpq5,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
 
-  - name: compile (make) SLURM
-    command: make chdir=/tmp/slurm-{{ slurm_version }} creates=/tmp/slurm-{{ slurm_version }}/src/slurmctld
+      - name: install slurm dependences in Deb systems
+        apt: name=openssl-blacklist
+        when: ansible_distribution_major_version|int <= 16
 
-  - name: install SLURM
-    command: make install chdir=/tmp/slurm-{{ slurm_version }} creates=/usr/local/bin/srun
+      - name: download SLURM package
+        get_url: url=http://ftpgrycap.i3m.upv.es/src/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
 
+      - name: decompress SLURM package
+        command: tar xjf slurm.tar.bz2 chdir=/tmp creates=/tmp/slurm-{{ slurm_version }}
+
+      - name: configure SLURM
+        command: ./configure {{ "--with-blcr=/usr/local/bin" if "blcr" in templates else "" }} chdir=/tmp/slurm-{{ slurm_version }} creates=/tmp/slurm-{{ slurm_version }}/config.log
+
+      - name: compile (make) SLURM
+        command: make chdir=/tmp/slurm-{{ slurm_version }} creates=/tmp/slurm-{{ slurm_version }}/src/slurmctld
+
+      - name: install SLURM
+        command: make install chdir=/tmp/slurm-{{ slurm_version }} creates=/usr/local/bin/srun
+
+    when: install_from_source
