@@ -1,10 +1,19 @@
 ---
+  - set_fact:
+      install_from_source: true
+
+  - set_fact:
+      install_from_source: false
+    when: >
+      (slurm_version == "19.05.5" and ansible_distribution_version == "20.04") or
+      (slurm_version == "17.11.2" and ansible_distribution_version == "18.04")
+
   # Add a fast check to speed reconfiguration
   - set_fact: SRUN_PATH=/usr/local/bin/srun
-    when: ansible_os_family == "Debian"
+    when: ansible_os_family == "Debian" and install_from_source
 
   - set_fact: SRUN_PATH=/usr/bin/srun
-    when: ansible_os_family == "RedHat"
+    when: ansible_os_family == "RedHat" or not install_from_source
 
   - stat: path={{SRUN_PATH}}
     register: slurm_installed
@@ -22,13 +31,21 @@
       GRES_CONF: "/etc/slurm/gres.conf"
     when: ansible_os_family == "RedHat"
 
-  - name: Set SLURM conf file path as fact Debian
+  - name: Set SLURM conf file path as fact Debian apt
+    set_fact:
+      SLURM_CONF: "/etc/slurm-llnl/slurm.conf"
+      SLURM_SERVICE: "/usr/sbin/slurmctld"
+      SLURM_DAEMON: "/usr/sbin/slurmd"
+      GRES_CONF: "/etc/slurm-llnl/gres.conf"
+    when: ansible_os_family == "Debian" and not install_from_source
+
+  - name: Set SLURM conf file path as fact Debian source
     set_fact:
       SLURM_CONF: "/usr/local/etc/slurm.conf"
       SLURM_SERVICE: "/usr/local/sbin/slurmctld"
       SLURM_DAEMON: "/usr/local/sbin/slurmd"
       GRES_CONF: "/usr/local/etc/gres.conf"
-    when: ansible_os_family == "Debian"
+    when: ansible_os_family == "Debian" and install_from_source
 
   - name: create slurm user and group
     user: name="{{slurm_user}}" shell=/bin/bash system=yes uid="{{ slurm_user_id }}"
