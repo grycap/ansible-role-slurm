@@ -13,7 +13,11 @@
         when: ansible_distribution_major_version|int <= 16
 
       - name: download SLURM package
-        get_url: url=http://ftpgrycap.i3m.upv.es/src/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
+        get_url: url={{ slurm_mirrors|random }}/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
+        register: result
+        until: result is success
+        retries: 5
+        delay: 2
 
       - name: decompress SLURM package
         command: tar xjf slurm.tar.bz2 chdir=/tmp creates=/tmp/slurm-{{ slurm_version }}
