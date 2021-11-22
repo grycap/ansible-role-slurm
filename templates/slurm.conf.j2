@@ -172,18 +172,18 @@ GresTypes={{ slurm_wn_gres_tpes }}
 
 {% if slurm_wn_nodenames != [] %}
 
-NodeName={{ slurm_wn_nodenames | join(",") }} CPUs={{ slurm_wn_cpus }} {{ 'RealMemory = %d' % slurm_wn_mem if slurm_wn_mem > 0 else '' }} {{ gres }} State=UNKNOWN
+NodeName={{ slurm_wn_nodenames | join(",") }} CPUs={{ slurm_wn_cpus }} {{ 'RealMemory = %s' % slurm_wn_mem if slurm_wn_mem|int > 0 else '' }} {{ gres }} State=UNKNOWN
 PartitionName=debug Nodes={{ slurm_wn_nodenames | join(",") }} Default=YES MaxTime=INFINITE State=UP
 
 {% elif slurm_wn_ips != [] %}
 
 # using slurm_wn_ips
-NodeName={{slurm_vnode_prefix}}[1-{{slurm_wn_ips|length}}] CPUs={{slurm_wn_cpus}} {{ 'RealMemory = %d' % slurm_wn_mem if slurm_wn_mem > 0 else '' }} {{ gres }} State=UNKNOWN
+NodeName={{slurm_vnode_prefix}}[1-{{slurm_wn_ips|length}}] CPUs={{slurm_wn_cpus}} {{ 'RealMemory = %s' % slurm_wn_mem if slurm_wn_mem|int > 0 else '' }} {{ gres }} State=UNKNOWN
 PartitionName=debug Nodes={{slurm_vnode_prefix}}[1-{{slurm_wn_ips|length}}] Default=YES MaxTime=INFINITE State=UP
 
 {% else %}
 
-NodeName={{slurm_vnode_prefix}}[1-{{max_number_of_nodes}}] CPUs={{slurm_wn_cpus}} {{ 'RealMemory = %d' % slurm_wn_mem if slurm_wn_mem > 0 else '' }} {{ gres }} State=UNKNOWN
+NodeName={{slurm_vnode_prefix}}[1-{{max_number_of_nodes}}] CPUs={{slurm_wn_cpus}} {{ 'RealMemory = %s' % slurm_wn_mem if slurm_wn_mem|int > 0 else '' }} {{ gres }} State=UNKNOWN
 PartitionName=debug Nodes={{slurm_vnode_prefix}}[1-{{max_number_of_nodes}}] Default=YES MaxTime=INFINITE State=UP
 
 {% endif %}
