@@ -12,6 +12,17 @@
         apt: name=openssl-blacklist
         when: ansible_distribution_major_version|int <= 16
 
+      - name: Check NVidia drivers installed
+        command: nvidia-smi
+        ignore_errors: yes
+        register: nvidia_installed
+        changed_when: false
+
+      - name: install nvidia-cuda-dev dependences in Deb systems
+        apt: name=nvidia-cuda-dev
+        when: nvidia_installed is succeeded
+        ignore_errors: yes
+
       - name: download SLURM package
         get_url: url={{ slurm_mirrors|random }}/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
         register: result
