@@ -24,14 +24,14 @@
         ignore_errors: yes
 
       - name: download SLURM package
-        get_url: url={{ slurm_mirrors|random }}/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm.tar.bz2
+        get_url: url={{ slurm_mirrors|random }}/slurm-{{ slurm_version }}.tar.bz2 dest=/tmp/slurm-{{ slurm_version }}.tar.bz2
         register: result
         until: result is success
         retries: 5
         delay: 2
 
       - name: decompress SLURM package
-        command: tar xjf slurm.tar.bz2 chdir=/tmp creates=/tmp/slurm-{{ slurm_version }}
+        command: tar xjf slurm-{{ slurm_version }}.tar.bz2 chdir=/tmp creates=/tmp/slurm-{{ slurm_version }}
 
       - name: configure SLURM
         command: ./configure {{ "--with-blcr=/usr/local/bin" if "blcr" in templates else "" }} chdir=/tmp/slurm-{{ slurm_version }} creates=/tmp/slurm-{{ slurm_version }}/config.log
