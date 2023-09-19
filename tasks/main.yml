@@ -52,7 +52,7 @@
 
   - name: create folders used by SLURM and set slurm owner
     file: path={{item}} state=directory owner=slurm group=slurm
-    with_items:
+    loop:
       - /var/spool/slurm
       - /var/log/slurm
       - /var/slurm/checkpoint
