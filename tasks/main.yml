@@ -20,8 +20,7 @@
     register: slurm_installed
 
   - name: Include "{{ansible_os_family}}" SLURM recipe
-    include: "{{ansible_os_family}}.yaml"
-    static: false
+    include_tasks: "{{ansible_os_family}}.yaml"
     when: not slurm_installed.stat.exists
 
   - name: Set SLURM conf file path as fact RH
@@ -60,8 +59,8 @@
       - /etc/slurm
 
   - name: Include "{{slurm_type_of_node}}" SLURM recipe
-    include: "{{slurm_type_of_node}}.yaml"
+    include_tasks: "{{slurm_type_of_node}}.yaml"
 
   - name: Install DRMAA Lib
-    include: drmaa.yml
+    include_tasks: drmaa.yml
     when: drmaa_lib_install 
