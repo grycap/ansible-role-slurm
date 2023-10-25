@@ -10,10 +10,13 @@
         done
 
   - name: Create the slurm.conf file
-    template: dest={{ SLURM_CONF }} src=slurm.conf.j2
+    template: dest={{ SLURM_CONF_DIR }}/slurm.conf src=slurm.conf.j2
+
+  - name: Create the cgroup.conf file
+    template: dest={{ SLURM_CONF_DIR }}/cgroup.conf src=cgroup.conf.j2
 
   - name: Create the gres.conf file
-    template: dest={{ GRES_CONF }} src=gres.conf.j2
+    template: dest={{ SLURM_CONF_DIR }}/gres.conf src=gres.conf.j2
     when: slurm_wn_gres != ""
 
   - name: Create slurmctld systemd unit file

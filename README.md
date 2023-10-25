@@ -80,6 +80,9 @@ The variables that can be passed to this role and a brief description about them
 		SlurmdLogFile: /var/log/slurm/slurmd.log
 	# SLURM user configuration options
 	slurm_conf_options: {}
+	# SLURM configuration options for cgroup
+	slurm_cgroup_conf_options:
+		CgroupPlugin: cgroup/v1
 
 Example Playbook
 ----------------
