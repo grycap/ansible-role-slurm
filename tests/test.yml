@@ -10,4 +10,4 @@
       slurm_vnode_prefix: vnode-
       max_number_of_nodes: 1
       drmaa_lib_version: 1.1.4
-      slurm_version: 22.05.10
+      slurm_version: 21.08.8
