@@ -58,6 +58,15 @@
       - /var/slurm/checkpoint
       - /etc/slurm
 
+  - name: Use BLCR as checkpointing type
+    set_fact:
+      slurm_conf_options: "{{ slurm_default_conf_options | combine({'CheckpointType': 'checkpoint/blcr'}) }}"
+    when : 'blcr' in templates
+
+  - name: Update default options with user options
+    set_fact:
+      slurm_conf_options: "{{ slurm_default_conf_options | combine(slurm_conf_options) }}"
+
   - name: Include "{{slurm_type_of_node}}" SLURM recipe
     include_tasks: "{{slurm_type_of_node}}.yaml"
 
