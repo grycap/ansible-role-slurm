@@ -14,6 +14,7 @@
 
   - name: copy cgroup.conf file from the frontend
     copy: src={{ SLURM_CONF_DIR }}/cgroup.conf  dest={{ SLURM_CONF_DIR }}/cgroup.conf  force=yes
+    when: "slurm_version is version('22.0.0', '>=')"
 
   - name: copy gres.conf file from the frontend
     copy: src={{ SLURM_CONF_DIR }}/gres.conf  dest={{ SLURM_CONF_DIR }}/gres.conf  force=yes
