@@ -14,6 +14,7 @@
 
   - name: Create the cgroup.conf file
     template: dest={{ SLURM_CONF_DIR }}/cgroup.conf src=cgroup.conf.j2
+    when: "slurm_version is version('22.0.0', '>=')"
 
   - name: Create the gres.conf file
     template: dest={{ SLURM_CONF_DIR }}/gres.conf src=gres.conf.j2
