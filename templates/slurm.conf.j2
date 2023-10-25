@@ -8,7 +8,7 @@ ControlMachine={{slurm_server_name}}
 #BackupAddr=
 #
 AuthType=auth/munge
-CacheGroups=0
+#CacheGroups=0
 
 {% if 'blcr' in templates %}
 CheckpointType=checkpoint/blcr
@@ -101,7 +101,7 @@ FastSchedule=1
 #SchedulerRootFilter=1
 #SchedulerTimeSlice=30
 SchedulerType=sched/backfill
-SchedulerPort=7321
+#SchedulerPort=7321
 SelectType=select/linear
 #SelectTypeParameters=
 #
@@ -128,7 +128,9 @@ SelectType=select/linear
 #AccountingStoragePort=
 AccountingStorageType=accounting_storage/none
 #AccountingStorageUser=
-AccountingStoreJobComment=YES
+
+#AccountingStoreJobComment=YES
+
 ClusterName=cluster
 #DebugFlags=
 #JobCompHost=
