@@ -34,3 +34,4 @@ max_number_of_nodes: 3
 slurm_vnode_prefix: wn
 # Install DRMAA library
 drmaa_lib_install: false
+drmaa_lib_version: 1.0.7

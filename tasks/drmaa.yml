@@ -1,10 +1,5 @@
 ---
   # Install DRMAA Library for slurm
-  - set_fact:
-      INSTALL_PATH: /opt
-      ID_FILE: "9"
-      FILENAME: "slurm-drmaa-1.0.7"
-
   - name: Check if lib exists
     stat: path=/usr/local/lib/libdrmaa.so
     register: libstat
@@ -14,10 +9,21 @@
     - name: Install GCC
       package: name=gcc state=present
 
+    - set_fact:
+        INSTALL_PATH: /opt
+        FILENAME: "slurm-drmaa-{{ drmaa_lib_version }}"
+
     - name: Download lib
       get_url:
         url: http://apps.man.poznan.pl/trac/slurm-drmaa/downloads/9
         dest: "{{ INSTALL_PATH }}/{{ FILENAME }}.tgz"
+      when: drmaa_lib_version == "1.0.7"
+
+    - name: Download lib
+      get_url:
+        url: https://github.com/natefoo/slurm-drmaa/releases/download/{{ drmaa_lib_version }}/slurm-drmaa-{{ drmaa_lib_version }}.tar.gz
+        dest: "{{ INSTALL_PATH }}/{{ FILENAME }}.tgz"
+      when: drmaa_lib_version != "1.0.7"
 
     - name: unarchive lib
       unarchive:
