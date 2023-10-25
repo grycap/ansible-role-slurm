@@ -74,3 +74,6 @@ slurm_default_conf_options:
   SlurmdLogFile: /var/log/slurm/slurmd.log
 # SLURM user configuration options
 slurm_conf_options: {}
+# SLURM configuration options for cgroup
+slurm_cgroup_conf_options:
+  CgroupPlugin: cgroup/v1
