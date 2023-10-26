@@ -23,19 +23,16 @@
     include_tasks: "{{ansible_os_family}}.yaml"
     when: not slurm_installed.stat.exists
 
-  - name: Set SLURM conf file path as fact RH
+  - name: Set default SLURM conf paths as facts
     set_fact:
       SLURM_CONF_DIR: "/etc/slurm"
       SLURM_SERVICE: "/usr/sbin/slurmctld"
       SLURM_DAEMON: "/usr/sbin/slurmd"
-    when: ansible_os_family == "RedHat"
 
   - name: Set SLURM conf file path as fact Debian apt
     set_fact:
       SLURM_CONF_DIR: "/etc/slurm-llnl"
-      SLURM_SERVICE: "/usr/sbin/slurmctld"
-      SLURM_DAEMON: "/usr/sbin/slurmd"
-    when: ansible_os_family == "Debian" and not install_from_source
+    when: ansible_os_family == "Debian" and not install_from_source and slurm_version != "21.08.5"
 
   - name: Set SLURM conf file path as fact Debian source
     set_fact:
