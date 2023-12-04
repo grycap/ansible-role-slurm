@@ -1,4 +1,6 @@
 galaxy_info:
+  role_name: slurm
+  namespace: grycap
   author: alpegon3@upv.es
   description: Install SLURM cluster
   company:  GRyCAP
