@@ -1,0 +1,10 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: true
+
+  pre_tasks:
+    - name: Update cache on Debian
+      apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"

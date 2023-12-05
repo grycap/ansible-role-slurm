@@ -7,7 +7,7 @@
   - block:
 
     - name: Install GCC
-      package: name=gcc state=present
+      package: name=gcc,make state=present
 
     - set_fact:
         INSTALL_PATH: /opt
@@ -44,7 +44,7 @@
 
     - name: Configure lib
       command:
-        cmd: ./configure --with-slurm-inc={{ SLURM_INC }} --with-slurm-lib={{ SLURM_LIB }} --sysconfdir=/etc
+        cmd: ./configure --disable-dependency-tracking --with-slurm-inc={{ SLURM_INC }} --with-slurm-lib={{ SLURM_LIB }} --sysconfdir=/etc
         creates: "{{ INSTALL_PATH }}/{{ FILENAME }}/Makefile"
         chdir: "{{ INSTALL_PATH }}/{{ FILENAME }}"
 

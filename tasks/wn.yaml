@@ -9,15 +9,29 @@
     delegate_to: "{{slurm_server_name}}"
     when: TEST is not defined
 
+  - name: Copy slurm.conf to the master
+    fetch: src="{{ SLURM_CONF_DIR }}/slurm.conf" dest="/tmp/slurm.conf" flat=yes
+    delegate_to: "{{slurm_server_name}}"
+
   - name: copy slurm.conf file from the frontend
-    copy: src={{ SLURM_CONF_DIR }}/slurm.conf  dest={{ SLURM_CONF_DIR }}/slurm.conf  force=yes
+    copy: src=/tmp/slurm.conf  dest={{ SLURM_CONF_DIR }}/slurm.conf  force=yes
+
+  - name: Copy cgroup.conf to the master
+    fetch: src="{{ SLURM_CONF_DIR }}/cgroup.conf" dest="/tmp/cgroup.conf" flat=yes
+    when: "slurm_version is version('22.0.0', '>=')"
+    delegate_to: "{{slurm_server_name}}"
 
   - name: copy cgroup.conf file from the frontend
-    copy: src={{ SLURM_CONF_DIR }}/cgroup.conf  dest={{ SLURM_CONF_DIR }}/cgroup.conf  force=yes
+    copy: src=/tmp/cgroup.conf  dest={{ SLURM_CONF_DIR }}/cgroup.conf  force=yes
     when: "slurm_version is version('22.0.0', '>=')"
 
+  - name: Copy gres.conf to the master
+    fetch: src="{{ SLURM_CONF_DIR }}/gres.conf" dest="/tmp/gres.conf" flat=yes
+    when: slurm_wn_gres != ""
+    delegate_to: "{{slurm_server_name}}"
+
   - name: copy gres.conf file from the frontend
-    copy: src={{ SLURM_CONF_DIR }}/gres.conf  dest={{ SLURM_CONF_DIR }}/gres.conf  force=yes
+    copy: src=/tmp/gres.conf  dest={{ SLURM_CONF_DIR }}/gres.conf  force=yes
     when: slurm_wn_gres != ""
 
   - name: Wait 5 secs to enable slurm to start

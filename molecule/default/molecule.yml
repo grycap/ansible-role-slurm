@@ -1,0 +1,30 @@
+---
+scenario:
+  name: default
+  test_sequence:
+    - dependency
+    - destroy
+    - create
+    - prepare
+    - converge
+    # - idempotence
+    - verify
+dependency:
+  name: galaxy
+driver:
+  name: docker
+verifier:
+  name: ansible
+platforms:
+  - name: instance
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2004}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
