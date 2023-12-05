@@ -1,0 +1,16 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Test
+      command: scontrol show nodes
+      register: nodes
+
+    - name: Check service running
+      fail:
+        msg: "Error getting node info"
+      when:
+        - "'NodeName=vnode-1' not in nodes.stdout"
