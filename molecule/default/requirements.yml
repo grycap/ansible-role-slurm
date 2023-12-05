@@ -1,2 +1,3 @@
 - name: grycap.munge
 - name: grycap.ssh
+- name: geerlingguy.ntp
