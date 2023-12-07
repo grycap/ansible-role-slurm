@@ -77,3 +77,5 @@ slurm_conf_options: {}
 # SLURM configuration options for cgroup
 slurm_cgroup_conf_options:
   CgroupPlugin: cgroup/v1
+# Add extra nodes to the /etc/hosts (elastic version)
+add_extra_hosts: true

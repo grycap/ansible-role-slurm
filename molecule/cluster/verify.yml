@@ -11,6 +11,6 @@
 
     - name: Check service running
       fail:
-        msg: "Error getting node info"
-      when:
-        - "'NodeName=vnode-1' not in nodes.stdout"
+        msg: "Error getting node IDLE state"
+      when: "'NodeName=vnode-1' not in nodes.stdout or 'State=IDLE' not in nodes.stdout" 
+

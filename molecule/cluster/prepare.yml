@@ -8,3 +8,6 @@
       apt:
         update_cache: yes
       when: ansible_os_family == "Debian"
+
+  roles:
+    - role: kevincoakley.facter

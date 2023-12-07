@@ -1,3 +1,4 @@
 - name: geerlingguy.ntp
 - name: grycap.ssh
 - name: grycap.munge
+- name: kevincoakley.facter
