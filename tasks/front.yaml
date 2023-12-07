@@ -8,6 +8,7 @@
           item="{{slurm_vnode_prefix}}${i}";
           grep -q "\<${item}\>" /etc/hosts || echo "127.0.0.1 ${item}.localdomain ${item}" >> /etc/hosts;
         done
+    when: add_extra_hosts
 
   - name: Create the slurm.conf file
     template: dest={{ SLURM_CONF_DIR }}/slurm.conf src=slurm.conf.j2
