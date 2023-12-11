@@ -9,6 +9,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+  # Test the role once a month 
+  schedule:
+    - cron: "* * 1 * *"
+
 jobs:
 
   molecule:
@@ -21,6 +25,7 @@ jobs:
           - rockylinux9
           - ubuntu2004
           - ubuntu2204
+          - debian11
 
     steps:
       - name: Check out the codebase.
