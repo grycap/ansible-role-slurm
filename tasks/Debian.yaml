@@ -4,6 +4,18 @@
         when: (slurm_version is version('23.11.0', '<')
 
       - block:
+        - name: Add grycap repo key
+          get_url:
+            url: "http://ftpgrycap.i3m.upv.es/ubuntu/keyFile"
+            dest: /etc/apt/trusted.gpg.d/grycap.asc
+            mode: '0644'
+
+        - name: Add grycap repo
+          apt_repository:
+            repo: 'deb [arch=amd64]  http://ftpgrycap.i3m.upv.es/ubuntu/ jammy main'
+            state: present
+            update_cache: yes
+
         - name: Install common slurm-smd packages
           apt:
             name:
@@ -23,6 +35,12 @@
           when: slurm_type_of_node = "wn"
 
         when: (slurm_version is version('23.11.0', '>=')
+
+      - name: Set SLURM conf file path as fact Debian apt
+        set_fact:
+          SLURM_CONF_DIR: "/etc/slurm-llnl"
+        when: slurm_version != "21.08.5"
+
     when: not install_from_source
 
   - block:  
@@ -63,5 +81,11 @@
 
       - name: install SLURM
         command: make install chdir=/tmp/slurm-{{ slurm_version }} creates=/usr/local/bin/srun
+
+      - name: Set SLURM conf file path as fact Debian source
+        set_fact:
+          SLURM_CONF_DIR: "/usr/local/etc"
+          SLURM_SERVICE: "/usr/local/sbin/slurmctld"
+          SLURM_DAEMON: "/usr/local/sbin/slurmd"
 
     when: install_from_source
