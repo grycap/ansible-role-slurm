@@ -25,12 +25,12 @@
         - name: Install front slurm-smd packages
           apt:
             name: slurm-smd-slurmctld
-          when: slurm_type_of_node = "front"
+          when: slurm_type_of_node == "front"
 
         - name: Install wn slurm-smd packages
           apt:
             name: slurm-smd-slurmd
-          when: slurm_type_of_node = "wn"
+          when: slurm_type_of_node == "wn"
 
         when: slurm_version is version('23.11.0', '>=')
 
