@@ -33,14 +33,13 @@
         remote_src: yes
 
     - set_fact:
-        SLURM_LIB: /usr/local/lib
-        SLURM_INC: /usr/local/include
-      when: ansible_os_family == "Debian"
-
-    - set_fact:
         SLURM_LIB: /usr/lib
         SLURM_INC: /usr/include
-      when: ansible_os_family == "RedHat"
+
+    - set_fact:
+        SLURM_LIB: /usr/local/lib
+        SLURM_INC: /usr/local/include
+      when: ansible_os_family == "Debian" and install_from_source
 
     - name: Configure lib
       command:

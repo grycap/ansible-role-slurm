@@ -1,28 +1,49 @@
 ---
   - block:
       - apt: name=slurm-wlm
-        when: (slurm_version is version('23.11.0', '<')
+        when: slurm_version is version('23.11.0', '<')
 
       - block:
+        - name: Add grycap repo key
+          get_url:
+            url: "http://ftpgrycap.i3m.upv.es/ubuntu/keyFile"
+            dest: /etc/apt/trusted.gpg.d/grycap.asc
+            mode: '0644'
+
+        - name: Add grycap repo
+          apt_repository:
+            repo: 'deb [arch=amd64]  http://ftpgrycap.i3m.upv.es/ubuntu/ {{ ansible_distribution_release }} main'
+            state: present
+            update_cache: yes
+
         - name: Install common slurm-smd packages
           apt:
             name:
               - slurm-smd
               - slurm-smd-client
 
-        - name: Install common slurm-smd packages
+        - name: Install front slurm-smd packages
           apt:
-            name:
-              - slurm-smd-slurmctld
-          when: slurm_type_of_node = "front"
+            name: slurm-smd-slurmctld
+          when: slurm_type_of_node == "front"
 
-        - name: Install common slurm-smd packages
+        - name: Install wn slurm-smd packages
           apt:
-            name:
-              - slurm-smd-slurmd
-          when: slurm_type_of_node = "wn"
+            name: slurm-smd-slurmd
+          when: slurm_type_of_node == "wn"
 
-        when: (slurm_version is version('23.11.0', '>=')
+        - name: Install wn slurm-smd-dev package
+          apt:
+            name: slurm-smd-dev
+          when: drmaa_lib_install
+
+        when: slurm_version is version('23.11.0', '>=')
+
+      - name: Set SLURM conf file path as fact Debian apt
+        set_fact:
+          SLURM_CONF_DIR: "/etc/slurm-llnl"
+        when: slurm_version is version('23.11.0', '<') and slurm_version != "21.08.5"
+
     when: not install_from_source
 
   - block:  
@@ -30,7 +51,7 @@
       - name: install slurm dependences in Deb systems
         apt: name=libmunge2,libpq5,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
 
-      - name: install slurm dependences in Deb systems
+      - name: install slurm dependences in old Ubuntu systems
         apt: name=openssl-blacklist
         when: ansible_distribution_major_version|int <= 16 and ansible_distribution == 'Ubuntu'
 
@@ -63,5 +84,11 @@
 
       - name: install SLURM
         command: make install chdir=/tmp/slurm-{{ slurm_version }} creates=/usr/local/bin/srun
+
+      - name: Set SLURM conf file path as fact Debian source
+        set_fact:
+          SLURM_CONF_DIR: "/usr/local/etc"
+          SLURM_SERVICE: "/usr/local/sbin/slurmctld"
+          SLURM_DAEMON: "/usr/local/sbin/slurmd"
 
     when: install_from_source
