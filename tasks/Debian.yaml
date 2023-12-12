@@ -1,7 +1,7 @@
 ---
   - block:
       - apt: name=slurm-wlm
-        when: (slurm_version is version('23.11.0', '<')
+        when: slurm_version is version('23.11.0', '<')
 
       - block:
         - name: Add grycap repo key
@@ -32,12 +32,12 @@
             name: slurm-smd-slurmd
           when: slurm_type_of_node = "wn"
 
-        when: (slurm_version is version('23.11.0', '>=')
+        when: slurm_version is version('23.11.0', '>=')
 
       - name: Set SLURM conf file path as fact Debian apt
         set_fact:
           SLURM_CONF_DIR: "/etc/slurm-llnl"
-        when: (slurm_version is version('23.11.0', '<') and slurm_version != "21.08.5"
+        when: slurm_version is version('23.11.0', '<') and slurm_version != "21.08.5"
 
     when: not install_from_source
 
