@@ -22,16 +22,14 @@
               - slurm-smd
               - slurm-smd-client
 
-        - name: Install common slurm-smd packages
+        - name: Install front slurm-smd packages
           apt:
-            name:
-              - slurm-smd-slurmctld
+            name: slurm-smd-slurmctld
           when: slurm_type_of_node = "front"
 
-        - name: Install common slurm-smd packages
+        - name: Install wn slurm-smd packages
           apt:
-            name:
-              - slurm-smd-slurmd
+            name: slurm-smd-slurmd
           when: slurm_type_of_node = "wn"
 
         when: (slurm_version is version('23.11.0', '>=')
@@ -39,7 +37,7 @@
       - name: Set SLURM conf file path as fact Debian apt
         set_fact:
           SLURM_CONF_DIR: "/etc/slurm-llnl"
-        when: slurm_version != "21.08.5"
+        when: (slurm_version is version('23.11.0', '<') and slurm_version != "21.08.5"
 
     when: not install_from_source
 
