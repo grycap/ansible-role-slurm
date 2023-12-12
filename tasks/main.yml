@@ -5,9 +5,17 @@
   - set_fact:
       install_from_source: false
     when: >
+      (slurm_version is version('23.11.0', '>=') and ansible_distribution_version >= "20.04") or
+      (slurm_version == "23.02.6" and ansible_distribution_version == "24.04") or
       (slurm_version == "21.08.5" and ansible_distribution_version == "22.04") or
       (slurm_version == "19.05.5" and ansible_distribution_version == "20.04") or
       (slurm_version == "17.11.2" and ansible_distribution_version == "18.04")
+
+  - name: Set default SLURM conf paths as facts
+    set_fact:
+      SLURM_CONF_DIR: "/etc/slurm"
+      SLURM_SERVICE: "/usr/sbin/slurmctld"
+      SLURM_DAEMON: "/usr/sbin/slurmd"
 
   # Add a fast check to speed reconfiguration
   - set_fact: SRUN_PATH=/usr/local/bin/srun
@@ -22,24 +30,6 @@
   - name: Include "{{ansible_os_family}}" SLURM recipe
     include_tasks: "{{ansible_os_family}}.yaml"
     when: not slurm_installed.stat.exists
-
-  - name: Set default SLURM conf paths as facts
-    set_fact:
-      SLURM_CONF_DIR: "/etc/slurm"
-      SLURM_SERVICE: "/usr/sbin/slurmctld"
-      SLURM_DAEMON: "/usr/sbin/slurmd"
-
-  - name: Set SLURM conf file path as fact Debian apt
-    set_fact:
-      SLURM_CONF_DIR: "/etc/slurm-llnl"
-    when: ansible_os_family == "Debian" and not install_from_source and slurm_version != "21.08.5"
-
-  - name: Set SLURM conf file path as fact Debian source
-    set_fact:
-      SLURM_CONF_DIR: "/usr/local/etc"
-      SLURM_SERVICE: "/usr/local/sbin/slurmctld"
-      SLURM_DAEMON: "/usr/local/sbin/slurmd"
-    when: ansible_os_family == "Debian" and install_from_source
 
   - name: create slurm user and group
     user: name="{{slurm_user}}" shell=/bin/bash system=yes uid="{{ slurm_user_id }}"
