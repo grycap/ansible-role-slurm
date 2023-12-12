@@ -32,6 +32,11 @@
             name: slurm-smd-slurmd
           when: slurm_type_of_node == "wn"
 
+        - name: Install wn slurm-smd-dev package
+          apt:
+            name: slurm-smd-dev
+          when: drmaa_lib_install
+
         when: slurm_version is version('23.11.0', '>=')
 
       - name: Set SLURM conf file path as fact Debian apt
