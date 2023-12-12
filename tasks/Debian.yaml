@@ -46,7 +46,7 @@
       - name: install slurm dependences in Deb systems
         apt: name=libmunge2,libpq5,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
 
-      - name: install slurm dependences in Deb systems
+      - name: install slurm dependences in old Ubuntu systems
         apt: name=openssl-blacklist
         when: ansible_distribution_major_version|int <= 16 and ansible_distribution == 'Ubuntu'
 
