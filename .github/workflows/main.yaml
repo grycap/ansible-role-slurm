@@ -11,7 +11,7 @@ on:
 
   # Test the role once a month 
   schedule:
-    - cron: "* * 1 * *"
+    - cron: "12 0 1 * *"
 
 jobs:
 
