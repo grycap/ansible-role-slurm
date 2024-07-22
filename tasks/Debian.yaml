@@ -19,22 +19,22 @@
         - name: Install common slurm-smd packages
           apt:
             name:
-              - slurm-smd
-              - slurm-smd-client
+              - slurm-smd={{ slurm_version }}*
+              - slurm-smd-client={{ slurm_version }}*
 
         - name: Install front slurm-smd packages
           apt:
-            name: slurm-smd-slurmctld
+            name: slurm-smd-slurmctld={{ slurm_version }}*
           when: slurm_type_of_node == "front"
 
         - name: Install wn slurm-smd packages
           apt:
-            name: slurm-smd-slurmd
+            name: slurm-smd-slurmd={{ slurm_version }}*
           when: slurm_type_of_node == "wn"
 
         - name: Install wn slurm-smd-dev package
           apt:
-            name: slurm-smd-dev
+            name: slurm-smd-dev={{ slurm_version }}*
           when: drmaa_lib_install
 
         when: slurm_version is version('23.11.0', '>=')
