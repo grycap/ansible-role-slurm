@@ -54,6 +54,11 @@
   - name: Include "{{slurm_type_of_node}}" SLURM recipe
     include_tasks: "{{slurm_type_of_node}}.yaml"
 
+  - name: Define the DRMAA library version as it does not work with SLURM 24
+    set_fact:
+      drmaa_lib_install: false
+    when: slurm_version is version('24.0.0', '>=')
+
   - name: Install DRMAA Lib
     include_tasks: drmaa.yml
     when: drmaa_lib_install 
