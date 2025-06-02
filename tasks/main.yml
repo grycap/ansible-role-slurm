@@ -34,7 +34,7 @@
     user: name="{{slurm_user}}" shell=/bin/bash system=yes uid="{{ slurm_user_id }}"
 
   - name: create folders used by SLURM and set slurm owner
-    file: path={{item}} state=directory owner=slurm group=slurm
+    file: path={{item}} state=directory owner={{ slurm_user }} group={{ slurm_user }}
     loop:
       - /var/spool/slurm
       - /var/log/slurm
