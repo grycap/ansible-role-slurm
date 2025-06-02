@@ -49,7 +49,7 @@ slurm_default_conf_options:
   SlurmdPidFile: /var/run/slurmctld.pid
   SlurmdPort: 6818
   SlurmdSpoolDir: /var/spool/slurm
-  SlurmUser: slurm
+  SlurmUser: "{{ slurm_user }}"
   StateSaveLocation: /var/slurm/checkpoint
   SwitchType: switch/none
   TaskPlugin: task/none
