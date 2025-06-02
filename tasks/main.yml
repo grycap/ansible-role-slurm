@@ -40,6 +40,7 @@
       - /var/log/slurm
       - /var/slurm/checkpoint
       - /etc/slurm
+      - /var/run/slurm
 
   - name: Use BLCR as checkpointing type
     set_fact:
