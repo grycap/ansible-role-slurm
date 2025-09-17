@@ -29,7 +29,7 @@ slurm_user_id: 5001
 # Templates files
 templates: ""
 # Number of Maximun nodes
-max_number_of_nodes: 3
+max_number_of_nodes: 1
 # Prefix applied to the cluster nodes
 slurm_vnode_prefix: wn
 # Install DRMAA library
