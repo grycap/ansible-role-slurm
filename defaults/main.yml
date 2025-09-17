@@ -44,12 +44,12 @@ slurm_default_conf_options:
   JobSubmitPlugins: all_partitions
   ProctrackType: proctrack/pgid
   ReturnToService: 2
-  SlurmctldPidFile: /var/run/slurmctld.pid
+  SlurmctldPidFile: /var/run/slurm/slurmctld.pid
   SlurmctldPort: 6817
-  SlurmdPidFile: /var/run/slurmctld.pid
+  SlurmdPidFile: /var/run/slurm/slurm.pid
   SlurmdPort: 6818
   SlurmdSpoolDir: /var/spool/slurm
-  SlurmUser: slurm
+  SlurmUser: "{{ slurm_user }}"
   StateSaveLocation: /var/slurm/checkpoint
   SwitchType: switch/none
   TaskPlugin: task/none
