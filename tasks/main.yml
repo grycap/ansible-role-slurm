@@ -15,6 +15,7 @@
       SLURM_CONF_DIR: "/etc/slurm"
       SLURM_SERVICE: "/usr/sbin/slurmctld"
       SLURM_DAEMON: "/usr/sbin/slurmd"
+      SLURMDBD_SERVICE: "/usr/sbin/slurmdbd"
 
   # Add a fast check to speed reconfiguration
   - set_fact: SRUN_PATH=/usr/local/bin/srun

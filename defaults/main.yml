@@ -32,6 +32,12 @@ templates: ""
 max_number_of_nodes: 1
 # Prefix applied to the cluster nodes
 slurm_vnode_prefix: wn
+# Install the Slurm DBD
+slurm_dbd: false
+mysql_root_password: r00t+Pass
+slurm_dbd_db_name: slurm_acct_db
+slurm_dbd_db_user: slurm
+slurm_dbd_db_password: slurmDBpass
 # Install DRMAA library
 drmaa_lib_install: false
 drmaa_lib_version: 1.0.7
