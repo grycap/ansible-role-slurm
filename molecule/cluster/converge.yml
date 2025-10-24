@@ -20,4 +20,5 @@
         drmaa_lib_version: 1.1.4
         slurm_version: 23.11.8
         add_extra_hosts: false
+        slurm_dbd: true
 

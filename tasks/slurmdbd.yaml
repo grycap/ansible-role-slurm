@@ -1,9 +1,11 @@
 ---
   - name: Create the slurmdbd.conf file
-    template: dest={{ SLURM_CONF_DIR }}/slurmdbd.conf src=slurmdbd.conf.j2
-    owner: "{{ slurm_user }}"
-    group: "{{ slurm_user }}"
-    mode: '0600'
+    template:
+      src: "slurmdbd.conf.j2"
+      dest: "{{ SLURM_CONF_DIR }}/slurmdbd.conf"
+      owner: "{{ slurm_user }}"
+      group: "{{ slurm_user }}"
+      mode: '0600'
 
   - name: MySQL | Make sure the MySQL packages are installed
     package:

@@ -34,7 +34,7 @@ platforms:
       - 6818/tcp
       - 6817/tcp
   - name: vnode-1
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos8}-ansible:latest"
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2204}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw

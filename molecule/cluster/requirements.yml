@@ -1,4 +1,8 @@
-- name: geerlingguy.ntp
-- name: grycap.ssh
-- name: grycap.munge
-- name: kevincoakley.facter
+roles:
+  - src: kevincoakley.facter
+  - src: geerlingguy.ntp
+  - src: grycap.ssh
+  - src: grycap.munge
+collections:
+  - name: community.mysql
+
