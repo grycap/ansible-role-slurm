@@ -21,4 +21,3 @@
         slurm_version: 23.11.11
         add_extra_hosts: false
         slurm_dbd: true
-
