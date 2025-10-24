@@ -48,6 +48,11 @@
       slurm_conf_options: "{{ slurm_default_conf_options | combine({'CheckpointType': 'checkpoint/blcr'}) }}"
     when : '"blcr" in templates'
 
+  - name: Use SlurmDBD as accounting
+    set_fact:
+      slurm_conf_options: "{{ slurm_default_conf_options | combine(slurm_dbd_conf_options) }}"
+    when: slurm_dbd
+
   - name: Update default options with user options
     set_fact:
       slurm_conf_options: "{{ slurm_default_conf_options | combine(slurm_conf_options) }}"
