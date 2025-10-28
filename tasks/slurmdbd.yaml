@@ -10,12 +10,12 @@
   - name: MySQL | Make sure the MySQL packages are installed
     package:
       name:
-        - mysql-server
+        - mariadb-server
         - python3-pymysql
 
   - name: Ensure MySQL service is started and enabled
     service:
-      name: mysql
+      name: mariadb
       state: started
       enabled: yes
 
@@ -43,12 +43,6 @@
       state: present
       login_user: root
       login_password: "{{ mysql_root_password }}"
-
-  - name: Ensure MySQL service is started and enabled
-    service:
-      name: mysql
-      state: started
-      enabled: yes
 
   - name: Create slurmdbd systemd unit file
     template:
