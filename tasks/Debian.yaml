@@ -24,7 +24,9 @@
 
         - name: Install front slurm-smd packages
           apt:
-            name: slurm-smd-slurmctld={{ slurm_version }}*
+            name:
+              - slurm-smd-slurmctld={{ slurm_version }}*
+              - slurm-smd-slurmdbd={{ slurm_version }}*
           when: slurm_type_of_node == "front"
 
         - name: Install wn slurm-smd packages
@@ -49,7 +51,7 @@
   - block:  
 
       - name: install slurm dependences in Deb systems
-        apt: name=libmunge2,libpq5,munge,libmunge-dev,gcc,make,bzip2 update_cache=yes cache_valid_time=3600
+        apt: name=libmunge2,libpq5,munge,libmunge-dev,gcc,make,bzip2,libmariadb-dev update_cache=yes cache_valid_time=3600
 
       - name: install slurm dependences in old Ubuntu systems
         apt: name=openssl-blacklist
@@ -90,5 +92,6 @@
           SLURM_CONF_DIR: "/usr/local/etc"
           SLURM_SERVICE: "/usr/local/sbin/slurmctld"
           SLURM_DAEMON: "/usr/local/sbin/slurmd"
+          SLURMDBD_SERVICE: "/usr/local/sbin/slurmdbd"
 
     when: install_from_source

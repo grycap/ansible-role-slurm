@@ -1,0 +1,57 @@
+---
+  - name: Create the slurmdbd.conf file
+    template:
+      src: "slurmdbd.conf.j2"
+      dest: "{{ SLURM_CONF_DIR }}/slurmdbd.conf"
+      owner: "{{ slurm_user }}"
+      group: "{{ slurm_user }}"
+      mode: '0600'
+
+  - name: MySQL | Make sure the MySQL packages are installed
+    package:
+      name:
+        - mariadb-server
+        - python3-pymysql
+
+  - name: Ensure MySQL service is started and enabled
+    service:
+      name: mariadb
+      state: started
+      enabled: yes
+
+  - name: Set MySQL root password and authentication method
+    mysql_user:
+      name: root
+      host: localhost
+      password: "{{ mysql_root_password }}"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      state: present
+
+  - name: Create SlurmDBD MySQL database
+    community.mysql.mysql_db:
+      name: "{{ slurm_dbd_db_name }}"
+      state: present
+      login_user: root
+      login_password: "{{ mysql_root_password }}"
+
+  - name: Create SlurmDBD MySQL user
+    community.mysql.mysql_user:
+      name: "{{ slurm_dbd_db_user }}"
+      password: "{{ slurm_dbd_db_password }}"
+      host: "localhost"
+      priv: "{{ slurm_dbd_db_name }}.*:ALL"
+      state: present
+      login_user: root
+      login_password: "{{ mysql_root_password }}"
+
+  - name: Create slurmdbd systemd unit file
+    template:
+      src: "slurmdbd.service.j2"
+      dest: "/etc/systemd/system/slurmdbd.service"
+
+  - name: SystemD daemon-reload and enable/start slurmdbd service
+    systemd:
+      state: started
+      enabled: yes
+      name: slurmdbd.service
+      daemon_reload: yes
