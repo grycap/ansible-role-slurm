@@ -51,6 +51,8 @@ platforms:
       - 6817/tcp
 provisioner:
   name: ansible
+  env:
+    ANSIBLE_ROLES_PATH: "${MOLECULE_PROJECT_DIRECTORY}"
   playbooks:
     converge: ${MOLECULE_PLAYBOOK:-converge.yml}
   inventory:
