@@ -31,6 +31,7 @@ platforms:
       - name: "slurm"
     network_mode: "slurm"
     published_ports:
+      - 6819/tcp
       - 6818/tcp
       - 6817/tcp
   - name: vnode-1
@@ -47,6 +48,7 @@ platforms:
       - name: "slurm"
     network_mode: "slurm"
     published_ports:
+      - 6819/tcp
       - 6818/tcp
       - 6817/tcp
 provisioner:

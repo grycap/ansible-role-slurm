@@ -38,6 +38,7 @@ mysql_root_password: r00t+Pass
 slurm_dbd_db_name: slurm_acct_db
 slurm_dbd_db_user: slurm
 slurm_dbd_db_password: slurmDBpass
+slurm_dbd_plugin_dir: /usr/lib/x86_64-linux-gnu/slurm/
 slurm_dbd_conf_options:
   AccountingStorageType: accounting_storage/slurmdbd
   AccountingStorageHost: slurmserver

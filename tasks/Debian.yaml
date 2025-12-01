@@ -93,5 +93,6 @@
           SLURM_SERVICE: "/usr/local/sbin/slurmctld"
           SLURM_DAEMON: "/usr/local/sbin/slurmd"
           SLURMDBD_SERVICE: "/usr/local/sbin/slurmdbd"
+          slurm_dbd_plugin_dir: "/usr/local/lib/slurm/"
 
     when: install_from_source

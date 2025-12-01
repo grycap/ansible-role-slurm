@@ -4,5 +4,5 @@ roles:
   - src: grycap.ssh
   - src: grycap.munge
 collections:
+  - name: community.general
   - name: community.mysql
-
