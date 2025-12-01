@@ -5,3 +5,4 @@ roles:
   - src: grycap.munge
 collections:
   - name: community.general
+  - name: community.mysql

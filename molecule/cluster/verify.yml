@@ -14,3 +14,5 @@
         msg: "Error getting node IDLE state"
       when: "'NodeName=vnode-1' not in nodes.stdout or 'State=IDLE' not in nodes.stdout" 
 
+    - name: Check slurmdbd running
+      command: sacctmgr show cluster
