@@ -3,21 +3,17 @@
   hosts: all
   become: true
 
-  tasks:
-
-    - name: "Include grycap.slurm"
-      include_role:
-        name: "ansible-role-slurm"
-      vars:
-        slurm_wn_cpus: 2
-        slurm_wn_mem: 1048576
-        slurm_wn_gres: "gpu:tesla:2"
-        slurm_server_name: slurmserver
-        slurm_wn_ips: "{{ groups['wn'] | map('extract', hostvars,'facter_ipaddress') | list }}"
-        slurm_vnode_prefix: vnode-
-        max_number_of_nodes: 1
-        drmaa_lib_install: true
-        drmaa_lib_version: 1.1.4
-        slurm_version: 23.11.11
-        add_extra_hosts: false
-        slurm_dbd: true
+  roles:
+    - role: ansible-role-slurm
+      slurm_wn_cpus: 2
+      slurm_wn_mem: 1048576
+      slurm_wn_gres: "gpu:tesla:2"
+      slurm_server_name: slurmserver
+      slurm_wn_ips: "{{ groups['wn'] | map('extract', hostvars,'facter_ipaddress') | list }}"
+      slurm_vnode_prefix: vnode-
+      max_number_of_nodes: 1
+      drmaa_lib_install: true
+      drmaa_lib_version: 1.1.4
+      slurm_version: 23.11.11
+      add_extra_hosts: false
+      slurm_dbd: true
