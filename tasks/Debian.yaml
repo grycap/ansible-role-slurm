@@ -1,9 +1,13 @@
 ---
-  - block:
+  - when: not install_from_source
+    block:
+
       - apt: name=slurm-wlm
         when: slurm_version is version('23.11.0', '<')
 
-      - block:
+      - when: slurm_version is version('23.11.0', '>=')
+        block:
+
         - name: Add grycap repo key
           get_url:
             url: "http://ftpgrycap.i3m.upv.es/ubuntu/keyFile"
@@ -21,34 +25,42 @@
             name:
               - slurm-smd={{ slurm_version }}*
               - slurm-smd-client={{ slurm_version }}*
+          register: install_slurm_smd
+          ignore_errors: yes
 
-        - name: Install front slurm-smd packages
-          apt:
-            name:
-              - slurm-smd-slurmctld={{ slurm_version }}*
-              - slurm-smd-slurmdbd={{ slurm_version }}*
-          when: slurm_type_of_node == "front"
+        - name: Install from source if slurm-smd package not found
+          set_fact:
+            install_from_source: true
+          when: install_slurm_smd is failed
 
-        - name: Install wn slurm-smd packages
-          apt:
-            name: slurm-smd-slurmd={{ slurm_version }}*
-          when: slurm_type_of_node == "wn"
+        - when: not install_from_source
+          block:
 
-        - name: Install wn slurm-smd-dev package
-          apt:
-            name: slurm-smd-dev={{ slurm_version }}*
-          when: drmaa_lib_install
+          - name: Install front slurm-smd packages
+            apt:
+              name:
+                - slurm-smd-slurmctld={{ slurm_version }}*
+                - slurm-smd-slurmdbd={{ slurm_version }}*
+            when: slurm_type_of_node == "front"
 
-        when: slurm_version is version('23.11.0', '>=')
+          - name: Install wn slurm-smd packages
+            apt:
+              name: slurm-smd-slurmd={{ slurm_version }}*
+            when: slurm_type_of_node == "wn"
+
+          - name: Install wn slurm-smd-dev package
+            apt:
+              name: slurm-smd-dev={{ slurm_version }}*
+            when: drmaa_lib_install
 
       - name: Set SLURM conf file path as fact Debian apt
         set_fact:
           SLURM_CONF_DIR: "/etc/slurm-llnl"
         when: slurm_version is version('23.11.0', '<') and slurm_version != "21.08.5"
 
-    when: not install_from_source
 
-  - block:  
+  - when: install_from_source
+    block:  
 
       - name: install slurm dependences in Deb systems
         apt: name=libmunge2,libpq5,munge,libmunge-dev,gcc,make,bzip2,libmariadb-dev update_cache=yes cache_valid_time=3600
@@ -94,5 +106,3 @@
           SLURM_DAEMON: "/usr/local/sbin/slurmd"
           SLURMDBD_SERVICE: "/usr/local/sbin/slurmdbd"
           slurm_dbd_plugin_dir: "/usr/local/lib/slurm/"
-
-    when: install_from_source
