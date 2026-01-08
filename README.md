@@ -14,7 +14,7 @@ The variables that can be passed to this role and a brief description about them
 	# SLURM version to install (in case of RH systems)
 	slurm_version: 20.02.7
 	# List of servers to download the slurm code
-	slurm_mirrors: [ "http://ftpgrycap.i3m.upv.es/src/", "https://download.schedmd.com/slurm/" ]
+	slurm_mirrors: [ "https://grycap.github.io/package-repos/src/", "https://download.schedmd.com/slurm/" ]
 	# Type of node to install: front or wn
 	slurm_type_of_node: front
 	# Name of the SLURM server
