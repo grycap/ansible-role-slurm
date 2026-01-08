@@ -1,16 +1,7 @@
 ---
 - name: Converge
   hosts: all
-  gather_facts: false
-  vars: 
-    ansible_python_interpreter: /usr/bin/python
-
-  pre_tasks:
-    - name: Link python
-      raw: ls /usr/bin/python || { ls /usr/bin/python2 && ln -s /usr/bin/python2 /usr/bin/python; } || { ls /usr/bin/python3 && ln -s /usr/bin/python3 /usr/bin/python; }
-      changed_when: false
-
-    - setup: 
+  become: true
 
   roles:
     - role: grycap.slurm
