@@ -7,11 +7,22 @@
       group: "{{ slurm_user }}"
       mode: '0600'
 
-  - name: MySQL | Make sure the MySQL packages are installed
+  - name: MySQL | Make sure the MySQL server is installed
     package:
       name:
         - mariadb-server
+
+  - name: MySQL | Make sure the pymysql is installed in Debian
+    package:
+      name:
         - python3-pymysql
+    when: ansible_os_family == "Debian"
+
+  - name: MySQL | Make sure the pymysql is installed in RedHat
+    package:
+      name:
+        - python3-PyMySQL
+    when: ansible_os_family == "RedHat"
 
   - name: Ensure MySQL service is started and enabled
     service:
