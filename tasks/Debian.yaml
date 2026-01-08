@@ -10,13 +10,13 @@
 
         - name: Add grycap repo key
           get_url:
-            url: "http://ftpgrycap.i3m.upv.es/ubuntu/keyFile"
+            url: "https://grycap.github.io/package-repos/ubuntu/keyFile"
             dest: /etc/apt/trusted.gpg.d/grycap.asc
             mode: '0644'
 
         - name: Add grycap repo
           apt_repository:
-            repo: 'deb [arch=amd64]  http://ftpgrycap.i3m.upv.es/ubuntu/ {{ ansible_distribution_release }} main'
+            repo: 'deb [arch=amd64]  https://grycap.github.io/package-repos/ubuntu/ {{ ansible_distribution_release }} main'
             state: present
             update_cache: yes
 

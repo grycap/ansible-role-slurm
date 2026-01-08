@@ -8,10 +8,10 @@
     when: ansible_distribution_major_version|int < 8
 
   - name: Add GRyCAP Repo key
-    rpm_key: state=present key="http://ftpgrycap.i3m.upv.es/centos/keyFile"
+    rpm_key: state=present key="https://grycap.github.io/package-repos/centos/keyFile"
 
   - name: Add GRyCAP Repo
-    get_url: url="http://ftpgrycap.i3m.upv.es/centos/{{ansible_distribution_major_version}}/grycap.repo" dest=/etc/yum.repos.d/grycap.repo
+    get_url: url="https://grycap.github.io/package-repos/centos/{{ansible_distribution_major_version}}/grycap.repo" dest=/etc/yum.repos.d/grycap.repo
 
   - name: Enable CRB repo
     command: dnf config-manager --enable crb
